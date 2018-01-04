@@ -12,7 +12,7 @@ $(() => {
             iframeWrap      : $('#iframeWrap'),
             log             : $('#log'),
         },
-        subscribeFn: () => {
+        subscribeFn: (event) => {
             console.log('message:::', event)
             console.log('data:::', event.data)
             console.log('source:::', event.source)
