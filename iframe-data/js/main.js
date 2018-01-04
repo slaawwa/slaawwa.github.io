@@ -5,10 +5,23 @@ $(() => {
         el: {
             setIframeBtn    : $('#setIframeBtn'),
             emitBtn         : $('#emitBtn'),
+            emitText        : $('#emitText'),
             subscribeBtn    : $('#subscribeBtn'),
             unsubscribeBtn  : $('#unsubscribeBtn'),
 
             iframeWrap      : $('#iframeWrap'),
+            log             : $('#log'),
+        },
+        subscribeFn: () => {
+            console.log('message:::', event)
+            console.log('data:::', event.data)
+            console.log('source:::', event.source)
+            site.log(`- From ifame data: ${event.data}`);
+            return site;
+        },
+        log: mess => {
+            site.el.log.prepend(` ${mess} (${new Date().toLocaleString()})${site.el.log.html()? '<br>': ''}`);
+            return site;
         },
         set: {
             behaviors: () => {
@@ -22,20 +35,16 @@ $(() => {
                 return site.set;
             },
             handler: {
-                subscribeFn: () => {
-                    console.log('message:::', event)
-                    console.log('data:::', event.data)
-                    console.log('source:::', event.source)
-                    return site.set.handler;
-                },
                 postData: () => {
 
                     site.el.subscribeBtn.click(() => {
-                        window.addEventListener("message", site.set.handler.subscribeFn, false);
+                        window.addEventListener("message", site.subscribeFn, false);
+                        site.log(' - Subscribe (wait for data)');
                     });
 
                     site.el.unsubscribeBtn.click(() => {
-                        window.removeEventListener("message", site.set.handler.subscribeFn);
+                        window.removeEventListener("message", site.subscribeFn);
+                        site.log(' - Unsubscribe');
                     });
 
                     return site.set.handler;
@@ -54,12 +63,11 @@ $(() => {
                 emitBtn: () => {
 
                     site.el.emitBtn.click(() => {
-                        console.log('emitBtn');
 
-                        let message = {
-                                data: 123,
-                            },
+                        let message = site.el.emitText.val(),
                             targetOrigin= "*";
+
+                        site.log(`- Send emit data: ${message}`);
 
                         site.el.iframe[0].contentWindow.postMessage(message, targetOrigin/*, [transfer]*/);
 
