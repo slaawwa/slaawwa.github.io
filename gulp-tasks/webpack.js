@@ -3,10 +3,7 @@
 var gulp = require('gulp'),
     $ = require('gulp-load-plugins')(),
     argv = require('yargs').argv,
-    named = require('vinyl-named'),
-    HTMLWebpackPlugin = require('html-webpack-plugin'),
-    ExtractTextPlugin = require('extract-text-webpack-plugin'),
-    path = require('path');
+    named = require('vinyl-named');
 
 argv.env = argv.env? argv.env: {};
 if (argv.env.dev && argv.env.dev != 'false' && argv.env.dev != 'true') argv.env.dev = `"${argv.env.dev}"`;
@@ -17,6 +14,10 @@ console.log('isDev:', isDev)
 console.log('isProd:', isProd)
 
 exports.task = function(callback) {
+
+    // console.info('=========================')
+    // console.info(path.resolve(__dirname, '..', 'src', 'index.html'))
+    // return;
 
     let firstBuildReady = false;
 
@@ -34,73 +35,9 @@ exports.task = function(callback) {
         }
     }
 
-    let extractCSS = new ExtractTextPlugin({
-        filename: 'style-[contenthash:10].css',
-    }),
-    cssIdentifier = isProd ? '[hash:base64:10]' : '[path][name]---[local]',
-    cssLoader = extractCSS.extract({
-        use: 'css-loader?minimize&localIdentName=' + cssIdentifier
-    });
-
     var webpackStream = require('webpack-stream'),
         webpack = webpackStream.webpack,
-        options = {
-            /*entry: {
-                main: '/app/main.js',
-            },*/
-            output: {
-                publicPath: '/',
-                filename: isDev? '[name].js': '[name]-[chunkhash:10].js',
-            },
-            plugins: [
-                /*extractCSS,
-                new HTMLWebpackPlugin({
-                    // template: 'index-template.html'
-                    template: 'src/index.html',
-                }),*/
-                new webpack.NoErrorsPlugin(),
-            ],
-            watch: isDev,
-            devServer: {
-                contentBase: path.join(__dirname, 'dist'),
-                inline: true,
-                hot: true,
-            },
-            devtool: isDev? 'cheap-inline-module-source-map': false,
-            module: {
-                rules: [{
-                    test: /\.js$/,
-                    use: [{
-                        loader: 'babel-loader',
-                        options: {
-                            presets: [
-                                ["es2015", { "modules": false }],
-                                // "es2015",
-                                "stage-0",
-                            ]
-                        }
-                    }],
-                    exclude: /node_modules/
-                }, {
-                    test: /\.html$/,
-                    use: ['html-loader']
-                }, {
-                    test: /\.css$/,
-                    use: cssLoader,
-                    exclude: /node_modules/
-                }/*, {
-                    test: /\.(eot|svg|ttf|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                    use: 'file-loader?name='+(isDev? 'fonts/[name].[ext]': 'fonts/[hash:8].[ext]'),
-                    // use: 'file-loader?name=public/fonts/[name].[ext]',
-                }, {
-                    test: /\.ico$/,
-                    use: [{
-                        loader: 'url-loader?limit=10000&name=img/favicon.ico',
-                        query: { mimetype: "image/x-icon" },
-                    }]
-                }*/],
-            }
-        };
+        options = require('../webpack.config.js');
 
     return gulp.src('./app/js/*.js')
         .pipe($.plumber(/*{
@@ -111,6 +48,12 @@ exports.task = function(callback) {
         .pipe(gulp.dest('dist/js'))
         .on('data', function() {
             if (firstBuildReady && !callback.called) {
+                callback.called = true;
+                callback();
+            }
+        })
+        .on('error', function() {
+            if (!callback.called) {
                 callback.called = true;
                 callback();
             }
