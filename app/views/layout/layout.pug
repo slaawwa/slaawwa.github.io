@@ -1,0 +1,28 @@
+//- include _var
+//- include _mixin
+doctype html
+html
+    head
+        block _head
+            block head
+                title Hello
+            //- +script('ll')
+            block _styles
+                block styles
+                //- link(rel='stylesheet' href='/static/main.css')
+    body
+        //- h1 Hi, from PUG!!
+        //- p= '`-'+title
+        block content
+            | !{content}
+        //- p= '`-'+title
+
+        //- include ../partials/foot
+        block footer
+            h1 Def footer `#{dd}`!
+
+        block _end
+            //- <script src="//ajax.googleapis.com/ajax/libs/jquery/latest/jquery.js"></script>
+            script(src='//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js ')
+            //- script(src='/static/main.js')
+            block scripts

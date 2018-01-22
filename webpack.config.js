@@ -3,7 +3,24 @@ var argv = require('yargs').argv,
     HTMLWebpackPlugin = require('html-webpack-plugin'),
     ExtractTextPlugin = require('extract-text-webpack-plugin'),
     CopyWebpackPlugin = require('copy-webpack-plugin'),
-    path = require('path');
+    path = require('path'),
+    extractLESS = new ExtractTextPlugin({
+        filename: '[name].[contenthash:10].css',
+        disable: false,
+    }),
+    cnf = require('./webpack.cnf')({
+        entry: {
+            main: path.join(__dirname, 'app', 'js', 'main.js'),
+        },
+        plugins: [
+            extractLESS,
+            new CopyWebpackPlugin([{
+                from: __dirname + '/app/_pages',
+                to: __dirname + '/dist',
+            }]),
+        ],
+    });
+
 
 argv.env = argv.env? argv.env: {};
 if (argv.env.dev && argv.env.dev != 'false' && argv.env.dev != 'true') argv.env.dev = `"${argv.env.dev}"`;
@@ -25,67 +42,83 @@ cssLoader = extractCSS.extract({
 
 
 var defConfig = {
-    entry: {
-        // main: './app/main.js',
-        main: path.join(__dirname, 'app', 'js', 'main.js'),
-    },
+    entry: cnf.entry,
     output: {
         publicPath: '/',
         // filename: isDev? '[name].js': '[name]-[chunkhash:10].js',
         filename: isProd ? '[name].[hash:12].min.js' : '[name].js',
         path: path.resolve(__dirname, 'dist')
     },
-    plugins: [
-        /*extractCSS,*/
-       /* new HTMLWebpackPlugin({
-            filename: path.join(__dirname, 'dist', 'index.html'),
-            template: path.join(__dirname, 'app', 'index.html'),
-            // filename: 'index.html'
-            // template: '../app/index.html',
-        }),*/
-        new CopyWebpackPlugin([{
-            from: __dirname + '/app/_pages',
-            to: __dirname + '/dist',
-        }]),
-        // new webpack.NoErrorsPlugin(),
-        new HTMLWebpackPlugin({
-          // filename: './dist/index.html',
-          template: './app/index.html',
-          minify: {
-            removeComments: true,
-            collapseWhitespace: true
-          }
-        }),
-    ],
+    plugins: cnf.plugins,
+    // plugins: [
+    //     /*extractCSS,*/
+    //    /* new HTMLWebpackPlugin({
+    //         filename: path.join(__dirname, 'dist', 'index.html'),
+    //         template: path.join(__dirname, 'app', 'index.html'),
+    //         // filename: 'index.html'
+    //         // template: '../app/index.html',
+    //     }),*/
+    //     new CopyWebpackPlugin([{
+    //         from: __dirname + '/app/_pages',
+    //         to: __dirname + '/dist',
+    //     }]),
+    //     // new webpack.NoErrorsPlugin(),
+    //     new HTMLWebpackPlugin({
+    //         filename: 'index.html',
+    //         template: './app/index.pug',
+    //         minify: {
+    //             removeComments: true,
+    //             collapseWhitespace: true
+    //       }
+    //     }),
+    //     new HTMLWebpackPlugin({
+    //         filename: 'login.html',
+    //         template: './app/views/pages/login.pug',
+    //         minify: {
+    //             removeComments: true,
+    //             collapseWhitespace: true,
+    //         },
+    //     }),
+    // ],
     watch: isDev,
     devtool: isDev? 'cheap-inline-module-source-map': false,
     module: {
-        loaders: [{
-            test: /\.js$/,
-            loader:'babel-loader',
-            query: {
-                presets: ['es2015', 'stage-0'],
-            },
-        }],
         rules: [{
             test: /\.js$/,
-            loader: 'babel-loader',
-            options: {
-                presets: ['es2015'],
-            },
-            /*use: [{
+            use: [{
+                loader: 'babel-loader',
                 options: {
                     presets: [
-                        ["es2015", { "modules": false }],
-                        // "es2015",
-                        "stage-0",
+                        ['es2015', { 'modules': false }],
+                        // 'stage-0',
                     ]
                 }
-            }],*/
+            }],
             exclude: /node_modules/
         }, {
             test: /\.html$/,
             use: ['html-loader']
+        }, {
+            test: /\.pug$/,
+            use: ['pug-loader']
+
+            // loaders: [
+            //   { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader') },
+            //   { test: /\.png$/, loader: 'file-loader' },
+            //   { test: /\.jade$/, loader: 'jade-loader' }
+            // ]
+
+
+        }, {
+            test: /\.less$/,
+            use: extractLESS.extract({
+                use: [{
+                    loader: 'css-loader?minimize',
+                }, {
+                    loader: 'less-loader',
+                }],
+                fallback: 'style-loader'
+            })
         }, {
             test: /\.css$/,
             use: cssLoader,

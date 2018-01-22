@@ -1,0 +1,44 @@
+extends ../../layout/layout
+
+block head
+    - var title = 'My profile 1'
+    title= title
+
+block styles
+    style.
+        html, body {
+            min-width: 100%;
+            min-height: 100%;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        
+            /*background-image: url(img/elen.jpg);*/
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+block content
+    h1 - Posts:
+    hr
+    nav
+        a(href="/iframe-data/") IFrame data
+        | 
+        a(href="/site/") Site project
+    //- p
+        - var dd = 'My DD val'
+        - var title = 'My profile'
+        h1 Hello
+        p #{t}
+        p=title
+    //- | #{fortunes()}
+
+    //- include ../partials/foot
+    //- include foot
+
+
+
+block footer
+    //- h1 My new footer #{dd}
