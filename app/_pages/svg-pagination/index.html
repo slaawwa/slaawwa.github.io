@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Svg pagination</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+        <style>
+            #app .pagination {
+                color: #333;
+                background-color: #fff;
+                border-color: #ccc;
+            }
+            #app .pagination a:hover, .pagination a:active, .pagination a:focus {
+                color: #fff;
+                background-color: #53585c;
+                border-color: #53585c;
+            }
+            #app .pagination a {
+                width: 30px;
+                height: 30px;
+                padding-top: 5px;
+            }
+            #app a.pagination__first, #app a.pagination__last {
+                padding: 5px 10px;
+            }
+            #app .pagination__first:before, #app .pagination__last:before {
+                display: block;
+                content: '\00a0';
+                background-repeat: no-repeat;
+                background-position-y: 5px;
+                background-size: 10px 10px;
+            }
+            #app .pagination__first:before {
+                background-image: url(icon-left-black.svg);
+            }
+            #app .pagination__first:hover:before {
+                background-image: url(icon-left-white.svg);
+            }
+            #app .pagination__last:before {
+                background-image: url(icon-right-black.svg);
+            }
+            #app .pagination__last:hover:before {
+                background-image: url(icon-right-white.svg);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container" id="app">
+            <h1>svg-pagination</h1>
+            <hr>
+            <ul class="pagination">
+                <li>
+                    <a href="#" class="pagination__first"></a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li>
+                    <a href="#" aria-label="Next" class="pagination__last"></a>
+                </li>
+            </ul>
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script>
+            $(() => {
+                console.log(' - init');
+            });
+        </script>
+    </body>
+</html>
