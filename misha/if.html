@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>If</title>
+    <style>
+        #if {
+            width: 50px;
+            text-align: center;
+        }
+        #if div {
+            height: 50px;
+            line-height: 50px;
+            border-radius: 50%;
+            text-align: center;
+            background-color: yellow;
+        }
+        #if:before, #if:after {
+            display: block;
+            content: '';
+            height: 25px;
+            width: 5px;
+            margin: auto;
+        }
+        #if:before {
+            background: rgba(255,255,255,1);
+            background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(223,252,0,1) 47%, rgba(223,252,0,1) 100%);
+            background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,1)), color-stop(47%, rgba(223,252,0,1)), color-stop(100%, rgba(223,252,0,1)));
+            background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(223,252,0,1) 47%, rgba(223,252,0,1) 100%);
+            background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(223,252,0,1) 47%, rgba(223,252,0,1) 100%);
+            background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(223,252,0,1) 47%, rgba(223,252,0,1) 100%);
+            background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(223,252,0,1) 47%, rgba(223,252,0,1) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#dffc00', GradientType=0 );
+        }
+        #if:after {
+            background: rgba(255,242,0,1);
+            background: -moz-linear-gradient(top, rgba(255,242,0,1) 0%, rgba(255,255,255,1) 100%);
+            background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,242,0,1)), color-stop(100%, rgba(255,255,255,1)));
+            background: -webkit-linear-gradient(top, rgba(255,242,0,1) 0%, rgba(255,255,255,1) 100%);
+            background: -o-linear-gradient(top, rgba(255,242,0,1) 0%, rgba(255,255,255,1) 100%);
+            background: -ms-linear-gradient(top, rgba(255,242,0,1) 0%, rgba(255,255,255,1) 100%);
+            background: linear-gradient(to bottom, rgba(255,242,0,1) 0%, rgba(255,255,255,1) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff200', endColorstr='#ffffff', GradientType=0 );
+        }
+    </style>
+</head>
+<body>
+    <div id="if"><div>ИЛИ</div></div>
+</body>
+</html>
