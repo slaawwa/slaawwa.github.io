@@ -50,7 +50,6 @@ let path = require('path'),
                     }
                 }
             });
-        
         // main: path.join(__dirname, 'app', 'js', 'main.js'),
 
         return {

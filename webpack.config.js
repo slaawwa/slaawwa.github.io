@@ -6,6 +6,7 @@ var argv = require('yargs').argv,
     // HTMLWebpackPlugin = require('html-webpack-plugin'),
     ExtractTextPlugin = require('extract-text-webpack-plugin'),
     CopyWebpackPlugin = require('copy-webpack-plugin'),
+    jsyaml = require('js-yaml'),
     // vueLoader = require('vue-loader'),
     path = require('path'),
     extractLESS = new ExtractTextPlugin({
@@ -22,6 +23,40 @@ var argv = require('yargs').argv,
             new CopyWebpackPlugin([{
                 from: __dirname + '/app/_pages',
                 to: __dirname + '/dist',
+            }, {
+                context: 'app/data',
+                from: {
+                    glob: '**/!(_)*.json.yaml',
+                    dot: true,
+                },
+                to: __dirname + '/dist/data/[path][name]',//.json',
+                cache: true,
+                transform (content, path) {
+                    try {
+                        content = jsyaml.safeLoad( content.toString() );
+                    } catch (e) {
+                        throw e;
+                    }
+                    return JSON.stringify(content);
+                },
+                ignore: ['_example/**'],
+            }, {
+                context: 'app/data',
+                from: {
+                    glob: '**/!(_*|*.json).yaml',
+                    dot: true,
+                },
+                to: __dirname + '/dist/data',
+                ignore: ['_example/**'],
+                cache: true,
+            }, {
+                context: 'app/data',
+                from: {
+                    glob: '**/!(_)*.json',
+                    dot: true,
+                },
+                to: __dirname + '/dist/data',
+                ignore: ['_example/**'],
             }]),
             /*new HTMLWebpackPlugin({
                 filename: `index.html`,

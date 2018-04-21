@@ -4,7 +4,7 @@ import Vue from 'vue';
 
 import hello from './components/hello.vue';
 
-import jsyaml from 'js-yaml';
+// import jsyaml from 'js-yaml';
 
 import '../../../img/bg.jpg';
 import '../../../img/logo.png';
@@ -133,22 +133,12 @@ let app = new Vue({
         },
         loadData() {
 
-            /*fetch('/menu.json')
+            fetch('/menu.json')
                 .then(r => r.json())
-                .then(menu => {
-
-                    this.menu.left.items = menu;
-
-                    this.handlerHash();
-
-                });*/
-
-            fetch('/menu.yaml')
-                .then(r => r.text())
-                .then(r => jsyaml.load(r))
                 .then(menu => {
                     
                     /*if (isDev) {
+                        // NOTE: Need for testing
                         menu[0].ajax = menu[0].link;
                         delete menu[0].link;
                         menu[0].html = '';
@@ -161,9 +151,9 @@ let app = new Vue({
                             url: '#about-me#portfolio',
                             link: '/app/portfolio.html',
                         }];
-                    }*/
 
-                    // console.log('menu:', menu);
+                        // console.log('menu:', menu);
+                    }*/
 
                     this.menu.left.items = menu;
                     
