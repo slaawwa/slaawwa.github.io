@@ -1,8 +1,12 @@
 
 var argv = require('yargs').argv,
-    HTMLWebpackPlugin = require('html-webpack-plugin'),
+    fs = require('fs'),
+    // marked = require('marked'),
+    webpack = require('webpack'),
+    // HTMLWebpackPlugin = require('html-webpack-plugin'),
     ExtractTextPlugin = require('extract-text-webpack-plugin'),
     CopyWebpackPlugin = require('copy-webpack-plugin'),
+    // vueLoader = require('vue-loader'),
     path = require('path'),
     extractLESS = new ExtractTextPlugin({
         filename: '[name].[contenthash:10].css',
@@ -10,7 +14,8 @@ var argv = require('yargs').argv,
     }),
     cnf = require('./webpack.cnf')({
         entry: {
-            main: path.join(__dirname, 'app', 'js', 'main.js'),
+            // _assets: path.join(__dirname, 'app', 'js', 'main.js'),
+            // vuejs: path.join(__dirname, 'app', '_vuejs', 'index.js'),
         },
         plugins: [
             extractLESS,
@@ -18,6 +23,20 @@ var argv = require('yargs').argv,
                 from: __dirname + '/app/_pages',
                 to: __dirname + '/dist',
             }]),
+            /*new HTMLWebpackPlugin({
+                filename: `index.html`,
+                template: `./app/_vuejs/index.pug`,
+                chunks: [
+                    //'_assets',
+                    'vuejs',
+                ],
+                content: marked(fs.readFileSync(`${__dirname}/README.md`, 'utf8')),
+                title: 'ttt',
+                minify: {
+                    removeComments: true,
+                    collapseWhitespace: true,
+                },
+            }),*/
         ],
     });
 
@@ -39,7 +58,14 @@ cssLoader = extractCSS.extract({
     use: 'css-loader?minimize&localIdentName=' + cssIdentifier
 });
 
-
+cnf.plugins.push(
+    new webpack.DefinePlugin({
+        isDev,
+        isProd,
+        ...(isProd? {'process.env': {NODE_ENV: `'production'`}}: {}),
+        // readmeContent: JSON.stringify(marked(fs.readFileSync(`${__dirname}/README.md`, 'utf8'))),
+    })
+);
 
 var defConfig = {
     entry: cnf.entry,
@@ -82,18 +108,50 @@ var defConfig = {
     // ],
     watch: isDev,
     devtool: isDev? 'cheap-inline-module-source-map': false,
+    resolve: {
+        alias: {
+            'vue$': 'vue/dist/vue.esm.js'
+        },
+        extensions: ['*', '.js', '.vue', '.json']
+    },
+    /*vue: {
+        loaders: {
+            // css: ExtractTextPlugin.extract("css"),
+            // you can also include <style lang="less"> or other langauges
+            less: extractLESS.extract("css!less"),
+        }
+    },*/
     module: {
-        rules: [{
+        // loaders: [
+        //     // { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader') },
+        //     {
+        //         test: /\.jpg$/,
+        //         loader: 'file-loader',
+        //     },
+        //     // { test: /\.jade$/, loader: 'jade-loader' }
+        // ],
+        rules: [
+
+
+        {
             test: /\.js$/,
             use: [{
                 loader: 'babel-loader',
                 options: {
                     presets: [
                         ['es2015', { 'modules': false }],
+                        'stage-2',
                         // 'stage-0',
-                    ]
-                }
+                    ],
+                    comments: false,
+                    // plugins: ['transform-runtime', 'babel-plugin-transform-runtime', 'babel-plugin-transform-object-rest-spread'],
+                },
             }],
+            include: [`${__dirname}/app`],
+            /*exclude: function(modulePath) {
+                return /node_modules/.test(modulePath) &&
+                    !/node_modules\/vue-particles/.test(modulePath);
+            },*/
             exclude: /node_modules/
         }, {
             test: /\.html$/,
@@ -112,22 +170,59 @@ var defConfig = {
         }, {
             test: /\.less$/,
             use: extractLESS.extract({
-                use: [{
+                use: [/*{
+                    loader: 'vue-style-loader',
+                }, */{
                     loader: 'css-loader?minimize',
                 }, {
                     loader: 'less-loader',
                 }],
-                fallback: 'style-loader'
+                // fallback: 'style-loader'
             })
         }, {
             test: /\.css$/,
             use: cssLoader,
             exclude: /node_modules/
         }, {
+            test: /\.vue$/,
+            use: [{
+                loader: 'vue-loader',
+                options: {
+                    loaders: {
+                        js: 'babel-loader'
+                    },
+                    babel: {
+                        babelrc: false,
+                        presets: ['es2015', 'stage-2'],
+                        // plugins: ['transform-runtime', 'babel-plugin-transform-runtime', 'babel-plugin-transform-object-rest-spread']
+                    },
+                },
+            }/*, 'babel-loader'*/],
+            // use: vueLaoder,
+            // exclude: /node_modules/,
+            // options: {
+                // loaders: {
+                    // css: ExtractTextPlugin.extract({
+                    /*css: extractLESS*//*.extract({
+                        use: 'css-loader',
+                        fallback: 'vue-style-loader',
+                    }),*/
+                    /*less: extractLESS.extract({
+                        use: [{
+                            loader: 'css-loader?minimize',
+                        }, {
+                            loader: 'less-loader',
+                        }],
+                        fallback: 'style-loader'
+                    }),*/
+                // }
+            // },
+        }, {
             test: /\.(png|svg|jpg|jpeg|gif)?$/,
-            use: 'file-loader?name='+(isDev? 'img/[name].[ext]': 'img/[hash:8].[ext]'),
+            // use: 'file-loader?name='+(isDev? 'img/[name].[ext]': 'img/[hash:8].[ext]'),
+            use: 'file-loader?name='+(isDev? 'img/[name].[ext]': 'img/[name].[ext]'),
             // use: 'file-loader?name=public/fonts/[name].[ext]',
-        }/*, {
+        }, /*{
             test: /\.(eot|svg|ttf|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
             use: 'file-loader?name='+(isDev? 'fonts/[name].[ext]': 'fonts/[hash:8].[ext]'),
             // use: 'file-loader?name=public/fonts/[name].[ext]',
@@ -137,7 +232,24 @@ var defConfig = {
                 loader: 'url-loader?limit=10000&name=img/favicon.ico',
                 query: { mimetype: "image/x-icon" },
             }]
-        }*/],
+        }*/
+
+
+
+
+          //   .../*(config.dev.useEslint? */[{
+          //   test: /\.(js|vue)$/,
+          //   loader: 'eslint-loader',
+          //   // enforce: 'pre',
+          //   // include: [resolve('src'), resolve('test')],
+          //   /*options: {
+          //       formatter: require('eslint-friendly-formatter'),
+          //       // emitWarning: !config.dev.showEslintErrorsInOverlay
+          //   }*/
+          // }] /*: [])*/,
+
+
+        ],
     }
 }
 if (isDev) {
@@ -146,14 +258,29 @@ if (isDev) {
         inline: true,
         // hot: true,
         port: 88,
-        host: 'loc.swagup.com',
+        host: 'localhost',
         // filename: '[name].js',
         publicPath: '/',
         disableHostCheck: true,
         stats: {
-            colors: true
+            colors: true,
         },
     };
+    defConfig.plugins.push(
+        new webpack.HotModuleReplacementPlugin()
+    );
+} else {
+    const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+    defConfig.plugins.push(
+        new UglifyJsPlugin({
+            sourceMap: false,
+            // compress: { warnings: false },
+        }),
+        /*new webpack.optimize.UglifyJsPlugin({
+            sourceMap: false,
+            compress: { warnings: false },
+        }),*/
+    );
 }
 
 module.exports = defConfig;

@@ -19,12 +19,14 @@ html(ng-app='app')
             block _endHead
                 +style(
                     '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
-                    '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css',
-                    '/static/admin/style.css'
+                    '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css'
                 )
                     //- 'https://fonts.googleapis.com/icon?family=Material+Icons',
                     //- '/admin/static/node_modules/material-design-lite/material.cyan-light_blue.min.css',
                 block styles
+                    +style(
+                        '/static/admin/style.css'
+                    )
     body(ng-controller='MainCtrl as Main')
 
         #content

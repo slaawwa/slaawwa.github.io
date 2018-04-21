@@ -1,4 +1,11 @@
+
+- time = new Date('02/29/1992');
+
 p.moduleName
     strong Name:
     | 
-    = name
+    span [#{name} #{time.toLocaleString()}]
+    hr
+    img(src=require('./jump.jpg'))
+    p
+        img(src=jump)

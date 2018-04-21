@@ -4,6 +4,8 @@
  - ## Good lessons
     - http://learn.javascript.ru/ - Ilya Kantor
     - http://jsraccoon.ru/ - https://github.com/rtivital/jsraccoon
+    - https://developer.mozilla.org/uk/ - Resources for developers, by developers
+    - https://github.com/zsolt-nagy/es6-summary - ES6 summary
 
  - ## Extra
 
@@ -26,6 +28,7 @@
 
     - [JQuery](https://jquery.com) - Old school
     - [VueJS](https://vuejs.org) - Simple and complex product
+        - https://github.com/vuejs/awesome-vue
     - [Angular](https://angular.io) - Google product
     - [React](https://reactjs.org) - Facebook product
 

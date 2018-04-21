@@ -1,0 +1,44 @@
+---
+-   name: root
+    url: "/#"
+    link: "/readme.html"
+    html: ''
+    show: 
+-   name: Домівка
+    url: "/#home"
+    link: "/login.html"
+    icon: home
+    show: true
+-   name: Про мене
+    url: "/#about-me"
+    ajax: "/app/about-me.html"
+    icon: user
+    html: ''
+    show: true
+    topMenu:
+    -   name: Резюме
+        url: "#resume"
+        link: "/app/resume.html"
+    -   name: Портфоліо
+        url: "#portfolio"
+        link: "/app/portfolio.html"
+-   name: Test
+    url: "/#test"
+    icon: pencil
+    link: "/app/test.html"
+    show: true
+-   name: VueJS
+    url: vuejs
+    icon: check
+    link: "/vuejs/index.html"
+    show: true
+    topMenu:
+    -   name: Events + animation
+        url: events
+        link: "/vuejs/01_events/index.html"
+    -   name: MD
+        url: marked
+        link: "/vuejs/02_marked/index.html"
+    -   name: Фільтри
+        url: filter
+        link: "/vuejs/03_filter/index.html"

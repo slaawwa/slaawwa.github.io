@@ -60,5 +60,187 @@ block content
                     |  Remember me
             button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
 
+        //- p
+            include ./name/name.pug
+
 block scripts
-    +script('/static/admin/index.js')
+    //- +script('/static/admin/index.js')
+    script.
+        'use strict';
+        ((_site={}) => {
+
+            let site = Object.assign(_site, {
+                ngInit: () => {
+                    site.app = angular.module('app', [])
+                        .run([() => {
+
+                            console.info('ng-init app');
+
+                        }]);
+
+                    return site;
+                },
+                setActiveMenu: () => {
+
+                    // Set current item menu
+                    let current = location.pathname;
+                    current.startsWith('/admin/history') && (current = '/admin/history');
+                    
+                    $('.sidebar a').each(function() {
+                        let href = $(this).attr('href');
+                        if (current === href) {
+                            $(this).parent().addClass('active');
+                        }
+                    });
+                    
+                    return site;
+                },
+                init: () => {
+
+                    site
+                        .ngInit()
+                        .setActiveMenu();
+
+                    // site.ng.api();
+                    // site.ng.ctrl();
+
+                    return site;
+                },
+            });
+
+            window.site = site.init();
+
+        })(window.site || {});
+    script.
+        'use strict';
+        ((_site={}) => {
+
+            let site = Object.assign(_site, {
+                api: () => {
+                    site.app.service('api', ['$http', function($http) {
+                        const urls = {
+                            user: {
+                                send:       userID => `/api/admin/send/${userID}`,
+                                status:     '/api/status',
+                                getProfile: '/api/profile',
+                                getPosts:   '/api/profile/posts',
+                                newPost:    '/api/post/new',
+                            },
+                            code: {
+                                list: '/api/code',
+                                del: '/api/code/del',
+                                blockUnblock: '/api/code/block',
+                            },
+                        },
+
+                        _send = function(url, data = {}, method = 'POST') {
+                            data.token = site.token;
+                            if (method.toUpperCase() === 'GET' && Object.keys(data).length) {
+                                url += `?${$.param(data)}`;
+                            }
+                            return $http({
+                                method,
+                                url,
+                                data,
+                                credentials: 'same-origin',
+                                headers: {
+                                    'x-requested-with': 'XMLHttpRequest',
+                                },
+                                /*headers: {
+                                    // 'X_CSRFTOKEN': data.csrfmiddlewaretoken,
+                                    // 'X_CSRFToken': data.csrfmiddlewaretoken,
+                                    'X-CSRFToken': data.csrfmiddlewaretoken
+                                }*/
+                            }).then(({data})=> data);
+                        },
+
+                        types = {byID: 1, byFB: 2, byVK: 3};
+
+                        return {
+                            user: {
+                                status: () => {
+                                    return _send(urls.user.status);
+                                },
+                                getPosts: (id, type) => {
+                                    return _send(urls.user.getPosts, {type: types[type], id: id});
+                                },
+                                newPost: (data) => {
+                                    return _send(urls.user.newPost, data);
+                                },
+                                getProfile: (id, type) => {
+                                    return _send(urls.user.getProfile, {type: types[type], id: id});
+                                },
+                                send: (userID, from, mess) => {
+                                    return _send(urls.user.send(userID), {from, mess});
+                                },
+                            },
+                            code: {
+                                list: () => {
+                                    return _send(urls.code.list, {}, 'GET');
+                                },
+                                blockUnblock: ({code, block}) => {
+                                    if (!block) block = '';
+                                    return _send(urls.code.blockUnblock, {code, block}, 'GET');
+                                },
+                                del: code => {
+                                    if (typeof code === 'object') code=code.code
+                                    return _send(urls.code.del, {code}, 'GET');
+                                },
+                            },
+                        };
+
+                    }]);
+                },
+                init: () => {
+
+                    // site.ng.init();
+                    site.api();
+                    // site.ng.ctrl();
+
+                    return site;
+                },
+            });
+
+            window.site = site.init();
+
+        })(window.site || {});
+    script.
+        'use strict';
+        (site => {
+            site.app.controller('MainCtrl', ['$http', 'api', function($http, api) {
+                let Main = this;
+                site.$http = $http;
+                site.api = api;
+                site.main = Main;
+
+                //- api.code.list()
+                //-     .then(({data: codes}) => {
+                //-         console.log('codes::', codes)
+                //-         Main.codes = codes;
+                //-     });
+
+                Main.blockUnblock = c => {
+                    api.code.blockUnblock({
+                        code: c.code,
+                        block: !c.block,
+                    }).then(res => {
+                        c.block = res.block;
+                        console.log('res::', res);
+                    });
+                }
+                
+                Main.delete = c => {
+                    if (confirm('Are you sure?')) {
+                        api.code.del(c.code)
+                            .then(res => {
+                                let index = Main.codes.indexOf(c);
+                                Main.codes.splice(index, 1);
+                                console.log('del::', res);
+                            });
+                    }
+                }
+
+            }]);
+        })(window.site);
+
+

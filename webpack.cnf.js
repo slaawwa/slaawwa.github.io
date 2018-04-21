@@ -2,6 +2,7 @@
 
 let path = require('path'),
     fs = require('fs'),
+    marked = require('marked'),
     HTMLWebpackPlugin = require('html-webpack-plugin'),
     pathDir = `${__dirname}/app/views/pages/`,
     getCnf = pathDir => {
@@ -20,20 +21,32 @@ let path = require('path'),
                     //     entries(module);
                     // }
                     if (existPUG) {
+                        let readme = `${__dirname}/README.md`;
+                        /*if (module === 'index' && fs.existsSync(readme)) {
+                            readme = fs.readFileSync(readme, 'utf8');
+                            htmlOpt.content = marked(readme);
+                        }*/
                         plugins.push(new HTMLWebpackPlugin({
                             filename: `${module}.html`,
                             template: `./app/views/pages/${module}/index.pug`,
-                            chunks: [/*'_assets',*/ module],
+                            ...(existJS
+                                ? {chunks: [/*'_assets',*/ module]}
+                                : {chunks: []}
+                            ),
                             minify: {
                                 removeComments: true,
                                 collapseWhitespace: true,
                             },
+                            ...(module === 'readme' && fs.existsSync(readme)
+                                ? {content: marked(fs.readFileSync(readme, 'utf8'))}
+                                : {}
+                            ),
                         }));
                     }
                     // let module = module.substring(1, -3);
                     // console.log(' - pug:', module, curPath);
                     if (existJS) {
-                        entry[module] = path.join(__dirname, 'app', 'views', 'pages', module, 'index.js')
+                        entry[module] = path.join(__dirname, `app/views/pages/${module}/index.js`)
                     }
                 }
             });
