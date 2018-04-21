@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <style>
+            body {
+                padding: 5px 15px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <div class="row">
+                <div class="col-xs-6">
+                    <textarea v-model="text" class="form-control" :style="styleObj"></textarea>
+                </div>
+                <div class="col-xs-6" v-html="html"></div>
+            </div>
+        </div>
+
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.14/marked.min.js"></script>
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                styleObj: {
+                    height: 'auto',
+                    position: 'fixed',
+                    width: '47%',
+                },
+                text: localStorage.text || '',
+            },
+            watch: {
+                text: (newText) => {
+                    localStorage.text = newText;
+                },
+            },
+            mounted() {
+                let h = window.innerHeight - 10;
+                this.styleObj.height = `${h}px`;
+                console.log('h:', h);
+            },
+            computed: {
+                html() {
+                    return marked(this.text)
+                        .replace(/\:\+1\:/, '&#128402;')
+                        .replace(/\:\-1\:/, '&#128403;');
+                },
+            },
+        });
+    </script>
+</html>
+

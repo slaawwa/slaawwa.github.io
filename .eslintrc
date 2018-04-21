@@ -1,0 +1,19 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
+    "rules": {
+        "semi": 0,
+        "quotes": 0,
+        "eqeqeq": 0,
+        "curly": 0,
+        "indent": 0,
+        "linebreak-style": 0,
+        "comma-dangle": 0,
+        "no-cond-assign": 0,
+        "no-console": 0,
+        "no-set-state": 0,
+        "parsing": 0
+    }
+}

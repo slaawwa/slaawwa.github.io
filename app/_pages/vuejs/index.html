@@ -1,0 +1,22 @@
+<div id="app">
+    <ul>
+        <li v-for="item in menu">
+            <a :href="item.link">{{ item.name}}</a>
+        </li>
+    </ul>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script>
+    let app = new Vue({
+        el: '#app',
+        data: {
+            menu: [{
+                name: 'Full',
+                link: 'full.html',
+            }, {
+                name: 'Events',
+                link: '01_events/index.html',
+            }],
+        },
+    });
+</script>

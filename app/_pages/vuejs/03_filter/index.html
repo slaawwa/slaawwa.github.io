@@ -1,0 +1,115 @@
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<style>
+    html, body {
+        padding: 0;
+        margin: 0;
+        border-color: #f5f5f5;
+        background-color: transparent;
+    }
+</style>
+
+<div id="app">
+    <div class="panel panel-default">
+        <div class="panel-heading">Filters</div>
+        <div class="panel-body">Description about filter in vuejs</div>
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-success">
+                <h4 class="list-group-item-heading">#1 Lowercase/Uppercase</h4>
+                <p class="list-group-item-text">
+                    <input v-model="lowercase">
+                    {{ lowercase.toLowerCase() }}
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h4 class="list-group-item-heading">#2 Currency</h4>
+                <p class="list-group-item-text">
+                    <input v-model="prize">
+                    {{ '₴' + parseFloat(prize).toFixed(2) }}
+                    <hr>
+                    <!-- <input v-model="price | currency"> -->
+                </p>
+            <li class="list-group-item list-group-item-success">
+                <h4 class="list-group-item-heading">#3 Масив</h4>
+                <p class="list-group-item-text">
+                    <input v-model="searchQuery">
+                    <button class="btn btn-link btn-xs" @click="desc = !desc">
+                        Sort by age {{desc? '&darr;': '&uarr;'}} 
+                    </button>
+                    <ul>
+                        <li v-for="item in orderedNames">{{item.name}}, {{item.age}}</li>
+                    </ul>
+                </p>
+            </li>
+            <button type="button" class="list-group-item">Porta ac consectetur ac</button>
+        </ul>
+        <div class="panel-footer">Ending...</div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.5/lodash.min.js"></script>
+<script>
+    /*Vue.filter('currency', {
+        read: function (value) {
+            console.log('value:', value);
+            return '$' + parseFloat(value).toFixed(2);
+        },
+        write: function (value) {
+            console.log(' - value:', value);
+            var number = +value.replace(/[^\d.]/g, '')
+            return isNaN(number) ? 0 : number
+        }
+    });*/
+    /*Vue.filter('orderBy', {
+        read: function (value) {
+            return '$' + value.toFixed(2)
+        },
+        write: function (value) {
+            var number = +value.replace(/[^\d.]/g, '')
+            return isNaN(number) ? 0 : number
+        }
+    });*/
+    let app = new Vue({
+        el: '#app',
+        data: {
+            searchQuery: '',
+            prize: 500,
+            desc: false,
+            lowercase: 'МАЛЕНЬКІ ЛІТЕРИ',
+            uppercase: 'великі літери',
+            names: [
+                {
+                    age: 25,
+                    name: 'Слава',
+                }, {
+                    name: 'Віка',
+                    age: 24,
+                }, {
+                    name: 'Рома',
+                    age: 27,
+                }, 
+            ],
+        },
+        computed: {
+            orderedNames() {
+                // console.log('this.names:', this.names);
+                // return _.orderBy(this.names, [sort, 'name'], [way, 'desc']);
+                // return "_.orderBy(this.names, 'name')";
+                let newNames = this.names.filter(user => {
+                    return user.name.toLowerCase().indexOf(this.searchQuery.toLowerCase().trim()) !== -1;
+                });
+                return this._orderedNames(newNames, 'age', this.desc? 'desc': 'asc');
+            },
+        },
+        methods: {
+            _orderedNames(names, sort='age', way='asc') {
+                return _.orderBy(names, [sort, 'name'], [way, 'desc']);
+            },
+            onEnter() {
+                console.log('m:', this.message);
+            },
+        },
+    });
+</script>

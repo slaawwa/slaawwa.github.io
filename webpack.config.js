@@ -237,16 +237,24 @@ var defConfig = {
 
 
 
-          //   .../*(config.dev.useEslint? */[{
-          //   test: /\.(js|vue)$/,
-          //   loader: 'eslint-loader',
-          //   // enforce: 'pre',
-          //   // include: [resolve('src'), resolve('test')],
-          //   /*options: {
-          //       formatter: require('eslint-friendly-formatter'),
-          //       // emitWarning: !config.dev.showEslintErrorsInOverlay
-          //   }*/
-          // }] /*: [])*/,
+
+        /**
+         * NOTE: For link need npm i eslint eslint-friendly-formatter eslint-loader -D
+         */
+        // "eslint": "^4.19.1",
+        // "eslint-friendly-formatter": "^4.0.0",
+        // "eslint-loader": "^2.0.0",
+        // 
+        //   .../*(config.dev.useEslint? */[{
+        //   test: /\.(js|vue)$/,
+        //   loader: 'eslint-loader',
+        //   // enforce: 'pre',
+        //   // include: [resolve('src'), resolve('test')],
+        //   /*options: {
+        //       formatter: require('eslint-friendly-formatter'),
+        //       // emitWarning: !config.dev.showEslintErrorsInOverlay
+        //   }*/
+        // }] /*: [])*/,
 
 
         ],

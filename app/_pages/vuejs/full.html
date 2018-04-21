@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body>
+
+    <div id="app">
+        <app-nav
+            v-for="item in menu"
+            v-bind:item="item">
+        ></app-nav>
+        <app-view>
+            <app-sidebar></app-sidebar>
+            <app-content></app-content>
+        </app-view>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script>
+        // app-nav
+        Vue.component('app-nav', {
+            props: ['item'],
+            template: '<li><a v-bind:href="item.link">{{ item.name }}</a></li>',
+        });
+
+        // app-sidebar
+        Vue.component('app-sidebar', {
+            // props: [],
+            template: 'Menu',
+        });
+
+        // app-content
+        Vue.component('app-content', {
+            // props: [],
+            template: 'Content',
+        });
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                menu: [
+                    { name: 'Home', link: '/'},
+                    { name: 'Test', link: '/test.html'},
+                ],
+            },
+        });
+
+    </script>
+
+</body>
+</html>
