@@ -1,7 +1,7 @@
 ---
 -   name: root
     url: "/#"
-    link: "/readme.html"
+    ajax: "/readme.html"
     html: ''
     show: 
 -   name: Домівка

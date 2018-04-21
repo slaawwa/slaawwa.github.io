@@ -20,12 +20,12 @@ block content
                 li
                     strong Welcome to programing
                 li(:class='{active: item.active}', v-for='item in menu.left.items', v-if='item.show')
-                    a(:href='item.url9 || item.ajax || item.link', @click.prevent='menuClick(item)')
+                    a(:href='item.ajax || item.link', @click.prevent='menuClick(item)')
                         i.glyphicon(:class="'glyphicon-'+item.icon")
                         | 
-                        | {{ item.name }}
+                        span(v-cloak) {{ item.name }}
         .col-md-9
-            ol.breadcrumb.sPage.row(v-if='menu.top.items.length')
+            ol.breadcrumb.sPage.row(v-cloak v-if='menu.top.items.length')
                 li
                     a(
                             :href='menu.top.current.ajax || menu.top.current.link'
@@ -36,10 +36,10 @@ block content
                         v-for='(item, index, last = menuIsLast(index)) in menu.top.items'
                         :class='{active: last}'
                     )
-                    a(v-if='item.link', :href='item.link', @click.prevent='menuClick(item, true)')
+                    a(v-cloak v-if='item.link', :href='item.link', @click.prevent='menuClick(item, true)')
                         i.glyphicon(:class="'glyphicon-'+item.icon")
                         | {{ item.name }}
-                    span(v-else='')
+                    span(v-cloak v-else='')
                         | {{ item.name }}
                     //- | {{ item.name }}
             .row
@@ -50,11 +50,16 @@ block content
                     //- <pre>{{menu.left.style | json}}</pre>
 
 
-                    iframe.iframe(v-if='content.link', :src="content.link+'?v='+Math.random()", :style='contentStyle')
+                    iframe.iframe(
+                            v-cloak
+                            v-if='content.link'
+                            :style='contentStyle'
+                            :src="content.link+'?v='+Math.random()"
+                        )
                     div(v-else-if='content.ajax')
                         p(v-if='content.html' v-html="content.html")
                         p(v-else='') Завантаження...
-                    div(v-else='')
+                    div(v-else='' v-cloak)
                         //- p!= htmlWebpackPlugin.options.content
                         | Щось сталося:( Нажаль сторінку не знайдено(
             //- hello

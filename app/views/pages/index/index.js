@@ -53,7 +53,12 @@ let app = new Vue({
             if (content.ajax && !content.html) {
                 fetch(content.ajax)
                     .then(r => r.text())
-                    .then(html => content.html = html);
+                    .then(html => {
+                        if (content.ajax === '/readme.html') {
+                            html = html.replace(/\<a /g, '<a target="_blank" '); 
+                        }
+                        content.html = html;
+                    });
             }
         },
     },
@@ -133,7 +138,7 @@ let app = new Vue({
         },
         loadData() {
 
-            fetch('/menu.json')
+            fetch('/data/menu.json')
                 .then(r => r.json())
                 .then(menu => {
                     
