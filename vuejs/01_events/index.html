@@ -1,0 +1,136 @@
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<style>
+    html, body {
+        padding: 0;
+        margin: 0;
+        border-color: #f5f5f5;
+        background-color: transparent;
+    }
+    header {
+        width: 100%;
+        height: 56px;
+        background-color: #fff;
+        box-shadow: 2px 2px 5px 0 rgba(0,0,0, .095);
+        padding: 8px 16px;
+        box-sizing: border-box; 
+    }
+    aside {
+        font-weight: 800;
+        color: #afafaf;
+        background-color: #fff;
+        position: fixed;
+        top: 55px;
+        left: 0;
+        width: 200px;
+        bottom: 0;
+        z-index: 1;
+        box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+        
+        display: flex;
+        justify-content: flex-start;
+        -ms-align-items: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .list-group-item {
+        width: 100%;
+        font-size: 12px;
+    }
+    aside h2 {
+        font-weight: 300;
+        color: #afafaf;
+    }
+    .slide-enter-active, .slide-leave-active {
+        transition: left .5s;
+    }
+    .slide-enter, .slide-leave-to {
+        left: -100%;
+    }
+    section {
+        transition: margin-left .5s;
+    }
+    section.hasMenu {
+        margin-left: 200px;
+    }
+    .btn-1 {
+        line-height: 8px;
+        background-color: transparent;
+        border: 0;
+        width: 40px;
+        height: 40px;
+        font-size: 30px;
+        outline: 0;
+        color: #9f9f9f;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: all .3s ease-in-out;
+    }
+    .btn-1:active {
+        background-color: rgba(0,0,0,.1);
+    }
+</style>
+
+<div id="app">
+    
+    <header>
+        <button class="btn-1" @click="showMenu = !showMenu">
+            &#8213;<br>
+            &#8213;<br>
+            &#8213;
+        </button>
+    </header>
+    <transition name="slide">
+        <aside v-show="showMenu" class="list-group">
+            <a href="#" class="list-group-item active">
+                Cras justo odio
+            </a>
+            <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+            <a href="#" class="list-group-item">Morbi leo risus</a>
+            <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+            <a href="#" class="list-group-item">Vestibulum at eros</a>
+        </aside>
+    </transition>
+    <section :class="{hasMenu: showMenu}">
+        <article class="row">
+            
+            <div class="col-md-12">
+            <p>
+                <input
+                    class="form-control"
+                    v-model="message"
+                    @keyup.enter="onEnter"
+                >
+            </div>
+        </article>
+        <article class="row">
+            <div class="col-md-12">
+                <button class="btn btn-default" @click="show = !show">
+                    {{show? 'Приховати': 'Показати'}}
+                    <!-- <span v-if="show">Показати</span> -->
+                    <!-- <span v-else>Приховати</span> -->
+                </button>
+
+                <span class="label label-danger" v-if="show">Таємний код))</span>
+            </div>
+        </article>
+    </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script>
+    let app = new Vue({
+        el: '#app',
+        data: {
+            show: false,
+            showMenu: false,
+            message: 'Events page',
+        },
+        methods: {
+            onEnter() {
+                console.log('m:', this.message);
+            },
+        },
+    });
+</script>

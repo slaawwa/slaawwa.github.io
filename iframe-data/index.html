@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>iframe data</title>
+    <style>
+        #iframeWrap, #logWrap {
+            width: 50%;
+            display: inline-block;
+            float: left;
+        }
+        #logWrap * {
+            padding-left: 20px;
+        }
+        iframe {
+            min-width: 100%;
+            min-height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>iFrame data</h1>
+    <hr>
+    <button id="setIframeBtn">Set iframe</button>
+    |
+    <input id="emitText" placeholder="Data to emit">
+    <button id="emitBtn">Emit</button>
+    |
+    <button id="subscribeBtn">Subscribe</button>
+    <button id="unsubscribeBtn">Unsubscribe</button>
+    <hr>
+    <div>
+        <div id="iframeWrap">Place for iframe...</div>
+        <div id="logWrap">
+            <h3>LOG:</h3>
+            <div id="log"></div>
+        </div>
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
