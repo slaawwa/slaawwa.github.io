@@ -2,10 +2,14 @@
 # Tools for FrontEnd (my best feature)
 
  - ## Good lessons
-    - http://learn.javascript.ru/ - Ilya Kantor
-    - http://jsraccoon.ru/ - https://github.com/rtivital/jsraccoon
-    - https://developer.mozilla.org/uk/ - Resources for developers, by developers
-    - https://github.com/zsolt-nagy/es6-summary - ES6 summary
+    - HTML/CSS
+        - http://htmlbook.ru/ - Влад Мержевич. Самоучитель | Справочник | Cпецифікації тощо
+    - JS
+        - http://learn.javascript.ru/ - Ilya Kantor
+        - http://jsraccoon.ru/ - https://github.com/rtivital/jsraccoon
+        - https://coursehunters.net/ - Free BE/FE lessons
+        - https://developer.mozilla.org/uk/ - Resources for developers, by developers
+        - https://github.com/zsolt-nagy/es6-summary - ES6 summary
 
  - ## Extra
 
