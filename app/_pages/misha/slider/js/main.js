@@ -11,7 +11,8 @@
 (function() {
 
 	var bodyEl = document.body,
-		content = document.querySelector( 'a' ),
+        menuA = document.querySelectorAll( '.menu .icon-list a' ),
+		content = document.querySelector('.content'),
 		openbtn = document.getElementById( 'open-button' ),
 		closebtn = document.getElementById( 'close-button' ),
 		isOpen = false;
@@ -27,12 +28,21 @@
 		}
 
 		// close the menu element if the target it´s not the menu element or one of its descendants..
-		content.addEventListener( 'click', function(ev) {
-			var target = ev.target;
-			if( isOpen && target !== openbtn ) {
-				toggleMenu();
-			}
-		} );
+		menuA.forEach(function(el) {
+            console.log('el::', el);
+            el.addEventListener( 'click', function(ev) {
+    			var target = ev.target;
+    			if( isOpen && target !== openbtn ) {
+    				toggleMenu();
+    			}
+            } );
+    	} );
+
+        content.addEventListener('click', function() {
+            if (isOpen) {
+                toggleMenu();
+            }
+        });
 	}
 
 	function toggleMenu() {
