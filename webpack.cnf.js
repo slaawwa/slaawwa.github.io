@@ -16,7 +16,8 @@ let path = require('path'),
                 if (fs.lstatSync(curPath).isDirectory()) {
                 // if (fs.lstatSync(curPath).isFile() && curPath.endsWith('.pug')) {
                     var existJS = fs.existsSync(`${curPath}/index.js`),
-                        existPUG = fs.existsSync(`${curPath}/index.pug`);
+                        existPUG = fs.existsSync(`${curPath}/index.pug`),
+                        existCNF = fs.existsSync(`${curPath}/_cnf.js`);
                     // if (module !== 'common' && existJS && existPUG) {
                     //     entries(module);
                     // }
@@ -27,8 +28,13 @@ let path = require('path'),
                             htmlOpt.content = marked(readme);
                         }*/
                         console.log(' => module:', module)
+
+                        let _cnf = existCNF
+                            ? require(`${curPath}/_cnf.js`)
+                            : {};
+
                         plugins.push(new HTMLWebpackPlugin({
-                            filename: `${module}.html`,
+                            filename: `${_cnf.module || module}.html`,
                             template: `./app/views/pages/${module}/index.pug`,
                             ...(existJS
                                 ? {chunks: [/*'_assets',*/ module]}
