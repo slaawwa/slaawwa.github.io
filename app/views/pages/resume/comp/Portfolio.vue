@@ -109,6 +109,22 @@
                         status: 'Працює',
                         date: '2017-11-17',
                     },
+                    // 42.kpi.wtf
+                    {
+                        name: '42.kpi.wtf',
+                        link: 'http://42.kpi.wtf/#=ProgForce',
+                        show: true,
+                        img: {
+                            thumb: ['42_kpi_wtf/thumb_0.jpg'],
+                            full: [
+                                '42_kpi_wtf/0.jpg',
+                                '42_kpi_wtf/1.jpg',
+                            ],
+                        },
+                        des: 'Після першого марафону організатори скинули pdf файл з результатмии! Звісно, я був в шоці. І зробив цю сторінку. <b>Webpack</b> + <b>Pug</b> + <b>jQuery</b> + <b>DataTable</b> + <b>Less</b>',
+                        status: 'Працює',
+                        date: '2017-10-08',
+                    },
                     // GGS - gulp-git-sftp
                     {
                         name: 'Gulp-git-sftp',
@@ -1053,6 +1069,10 @@
     import '../img/portfolio/sb_admin/2.jpg';
     import '../img/portfolio/sb_admin/3.jpg';
     import '../img/portfolio/sb_admin/4.jpg';
+
+    import '../img/portfolio/42_kpi_wtf/thumb_0.jpg';
+    import '../img/portfolio/42_kpi_wtf/0.jpg';
+    import '../img/portfolio/42_kpi_wtf/1.jpg';
 
 </script>
 
