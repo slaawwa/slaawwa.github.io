@@ -1,43 +1,42 @@
 'use strict';
 
 import Vue from 'vue';
+import $ from 'jquery';
 
 import hello from './components/hello.vue';
+// import hello from 'comp/hello.vue';
 
-// import jsyaml from 'js-yaml';
-
-import '../../../img/bg.jpg';
-import '../../../img/logo.png';
+import 'app/img/bg.jpg';
+import 'app/img/logo.png';
 
 import './style.less';
 
-// window.jsyaml = jsyaml;
-
-// console.log('htmlWebpackPlugin.options:', readmeContent);
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
+
 if (isDev) {
     console.log('isDev:', isDev);
     console.log('isProd:', isProd);
 }
 
+/* ------- */
+
 let app = new Vue({
     el: '#app',
     data: {
-        m: 'readmeContent',
-        refreshStop: false,
         contentStyle: {},
         menu: {
+            current: null,
             top: {
                 current: '',
                 items: [],
             },
             left: {
+                items: [],
                 style: {
                     maxHeight: `${window.innerHeight - 142}px`,
                     width: `${document.getElementById('leftMenu').clientWidth}px`,
                     position: 'fixed',
                 },
-                items: [],
             },
         },
         content: {},
@@ -63,20 +62,18 @@ let app = new Vue({
         },
     },
     methods: {
-        clearHash: hash => {
-            if (hash.startsWith('#')) {
-                hash = hash.substring(1);
-            } else if (hash.startsWith('/#')) {
-                hash = hash.substring(2);
+        clearSearch: query => {
+            if (query.startsWith('/?')) {
+                query = query.substring(2);
+            } else if (query.startsWith('/') || query.startsWith('?')) {
+                query = query.substring(1);
             }
-            return hash;
+            return query;
         },
         menuIsLast(index) {
-            // console.log('index::', index === (this.menu.top.items.length-1))
             return index === (this.menu.top.items.length-1);
-            // return false;
         },
-        menuClick(item, isTop=false) {
+        menuClick(item, isTop=false, withoutPush=false) {
 
             let url, _item;
 
@@ -85,7 +82,7 @@ let app = new Vue({
                 if (typeof isTop === 'string') {
                     current = item;
                     for (let i = 0, l = current.topMenu.length; i < l; i++) {
-                        if (this.clearHash(current.topMenu[i].url) === isTop) {
+                        if (this.clearSearch(current.topMenu[i].url) === isTop) {
                             _item = current.topMenu[i];
                             break;
                         }
@@ -95,17 +92,21 @@ let app = new Vue({
                     current = app.menu.top.current;
                 }
                 let itemUrl = _item? _item.url || _item.ajax || _item.link: '';
-                itemUrl && !itemUrl.startsWith('#') && (itemUrl = `#${itemUrl}`);
+                itemUrl && !itemUrl.startsWith('/') && (itemUrl = `/${itemUrl}`);
                 url = `${current.url || current.ajax || current.link}${itemUrl}`;
+                this.menu.current = _item;
             }
             if (!isTop || typeof isTop === 'string') {
+
+                this.menu.current = item;
+
                 app.menu.left.items.map(x => {
                     x.active = item === x;
                 });
                 
+                app.menu.top.current = item;
                 if (item && item.topMenu) {
                     app.menu.top.items = item.topMenu;
-                    app.menu.top.current = item;
                 } else {
                     app.menu.top.items = [];
                     /*app.menu.top.items = [{
@@ -120,11 +121,34 @@ let app = new Vue({
                 url = item !== '/'? url || (url = item.url || item.ajax || item.link): '';
             }
 
-            url = this.clearHash(url);
+            url = this.clearSearch(url);
 
-            this.refreshStop = true;
-            location.hash = url;
-            setTimeout(() => {this.refreshStop = false}, 100);
+            // this.refreshStop = true;
+            // console.log('url::', url);
+            url = (url? `/?${url}`: '/') + location.hash;
+            // console.log('= url:::', url, withoutPush);
+            // console.log('- url:::', `/${location.search}${location.hash}`);
+            if (withoutPush || `/${location.search}${location.hash}` === url) {
+                history.replaceState(null, null, url);
+            } else {
+                console.log('- .pushState:::', url, `/${location.search}${location.hash}`);
+                history.pushState(null, null, url);
+            }
+            // {html: app.content, pageTitle: ''}
+
+            // location.hash = url;
+            // setTimeout(() => {
+            //     this.refreshStop = false;
+            //     if (!isTop) {
+            //         let commentPage = app.clearSearch( this.menu.top.current.url ) || 'root';
+            //         $('.disqus-comment-count')
+            //             .html('')
+            //             .attr('data-disqus-identifier', commentPage);
+            //         if (window.DISQUSWIDGETS) {
+            //             window.DISQUSWIDGETS.getCount({reset: true});
+            //         }
+            //     }
+            // }, 100);
 
             if (_item && _item !== item) {
                 app.content = _item;
@@ -141,48 +165,30 @@ let app = new Vue({
             fetch('/data/menu.json')
                 .then(r => r.json())
                 .then(menu => {
-                    
-                    /*if (isDev) {
-                        // NOTE: Need for testing
-                        menu[0].ajax = menu[0].link;
-                        delete menu[0].link;
-                        menu[0].html = '';
-                        menu[0].topMenu = [{
-                            name: 'Резюме',
-                            url: '#about-me#resume',
-                            link: '/app/resume.html',
-                        }, {
-                            name: 'Портфоліо',
-                            url: '#about-me#portfolio',
-                            link: '/app/portfolio.html',
-                        }];
-
-                        // console.log('menu:', menu);
-                    }*/
-
                     this.menu.left.items = menu;
                     
-                    this.handlerHash();
+                    this.handlerUrl({withoutPush: true});
 
                 });
 
             return this;
         },
-        handlerHash(hash=location.hash) {
+        handlerUrl({search=location.search, withoutPush=false}) {
 
-            // if (hash) {
+
+            // if (search) {
                 let item;
 
-                hash = this.clearHash(hash);
-                hash = hash.split('#');
+                search = this.clearSearch(search);
+                search = search.split('/');
 
                 for (let i = 0, l = this.menu.left.items.length; i < l; i++) {
 
                     let x = this.menu.left.items[i],
-                        h = this.clearHash(x.url || x.ajax || x.link);
+                        h = this.clearSearch(x.url || x.ajax || x.link);
 
-                    if (h === hash[0]) {
-                        this.menuClick(x, hash[1]);
+                    if (h === search[0]) {
+                        this.menuClick(x, search[1], withoutPush);
                         item = x;
                         break;
                     }
@@ -190,35 +196,61 @@ let app = new Vue({
             // }
             return this;
         },
-        onChangeHash() {
+        onChangeUrl() {
 
-            window.onhashchange = e => {
-                // let {newURL, oldURL} = e;
-                // console.log(' - location.hash:', location.hash);
-                // console.log(' - newURL:', newURL);
-                // console.log(' - oldURL:', oldURL);
-                // console.log(' - e:', e);
-                // e.cancelable = true;
-                // e.preventDefault();
-                if (this.refreshStop) {
-                    this.refreshStop = false;
-                } else {
-                    this.handlerHash();
-                }
+            window.onpopstate = e => {
+                console.log('e::', e.state);
+                // console.log('e.state.html::', e.state.html);
+                // app.content = e.state.html || {};
+                this.handlerUrl({withoutPush: true});
+                return false;
             }
+
+            // window.addEventListener('popstate', e => {
+            //     console.log('e:e:', e.state);
+            //     /*if (event.state) {
+            //         alert('!');
+            //     }*/
+            // }, false);
+
+            return this;
+        },
+        onModalComment() {
+
+            $('#commentModal').on('show.bs.modal', () => {
+                $('#disqus_thread').html('');
+                if (window.DISQUS) {
+                    DISQUS.reset({
+                        reload: true,
+                        config: window.disqus_config,
+                    });
+                } else {
+                    var d = document, s = d.createElement('script');
+                    s.src = 'https://slaawwa-github.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                }
+            });
 
             return this;
         },
     },
     mounted() {
+
+        window.h = location.hash;
+
         this
-            .onChangeHash()
+            .onChangeUrl()
+            .onModalComment()
             .loadData();
     },
     components: {
         hello,
     },
 });
+
+/* ------- */
+
 
 if (isDev) {
     window.app = app;
@@ -231,24 +263,54 @@ if (isDev) {
 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
 
-var disqus_config = function() {
+const disqus_config = function() {
 
-    this.callbacks.onNewComment = [function(comment) {
+    this.callbacks.onNewComment = [comment => {
         console.log('comment:', comment);
     }];
     
-    // this.page.url = window.location.href; // Replace PAGE_URL with your page's canonical URL variable
-    this.page.url = 'https://slaawwa.github.io/';  // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = 'home'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    this.page.title = 'Tools for FrontEnd (my best feature)';
+    let url = location.href.indexOf('#') + 1,
+        urlPos = location.href.indexOf('#', url);
+    if (url && urlPos !== -1) {
+        url = location.href.substring(0, urlPos);
+    } else {
+        url = location.href;
+    }
+    this.page.url = url; // Replace PAGE_URL with your page's canonical URL variable
+    // this.page.url = location.href.replace('#', '').split('#')[0]; // Replace PAGE_URL with your page's canonical URL variable
+    // this.page.url = 'https://slaawwa.github.io/';  // Replace PAGE_URL with your page's canonical URL variable
+    // this.page.identifier = app.clearSearch( app.menu.top.current.url ) || 'root'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    this.page.identifier = app.clearSearch( app.menu.top.current.url ) || 'root'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    // this.page.identifier = 'vuejs2'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    if (this.page.identifier === 'test' || this.page.identifier === 'vuejs') {
+        this.page.identifier += '-new2';
+    }
+    
+    let title = app.content.name;
+    if (title === 'root') {
+        title = false;
+    }
+
+    this.page.title = title || $('title').html();
+
+    // this.page.category_id = this.page.identifier;
+    console.log('this.page:', this.page);
 };
 
 window.disqus_config = disqus_config;
 
-(function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    // s.src = 'https://slaawwa-github.disqus.com/embed.js';
-    s.src = '//slaawwa-github.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-})();
+// (function() { // DON'T EDIT BELOW THIS LINE
+//     var d = document, s = d.createElement('script');
+//     s.src = 'https://slaawwa-github.disqus.com/embed.js';
+//     s.setAttribute('data-timestamp', +new Date());
+//     (d.head || d.body).appendChild(s);
+// })();
+
+// history.pushState({html: '', pageTitle: ''}, null, '/');
+// window.onpopstate = function(e){
+//     if(e.state){
+//         document.getElementById("content").innerHTML = e.state.html;
+//         document.title = e.state.pageTitle;
+//     }
+// };
+// history.replaceState({}, null, '/?vuejs#vuejs2');

@@ -143,9 +143,15 @@ var defConfig = {
     // ],
     watch: isDev,
     devtool: isDev? 'cheap-inline-module-source-map': false,
+    // jQuery from CDN
+    externals: {
+        jquery: 'jQuery',
+    },
     resolve: {
         alias: {
-            'vue$': 'vue/dist/vue.esm.js'
+            'vue$': 'vue/dist/vue.esm.js',
+            // docRoot: __dirname + '/../../document root',
+            app: `${__dirname}/app`,
         },
         extensions: ['*', '.js', '.vue', '.json']
     },
@@ -173,12 +179,16 @@ var defConfig = {
             use: [{
                 loader: 'babel-loader',
                 options: {
+                    babelrc: false,
                     presets: [
                         ['es2015', { 'modules': false }],
                         'stage-2',
+                        // 'stage-3',
                         // 'stage-0',
                     ],
                     comments: false,
+                    // plugins: ['transform-object-rest-spread'],
+                    plugins: ['transform-es2015-destructuring', ['transform-object-rest-spread', { 'useBuiltIns': true }]],
                     // plugins: ['transform-runtime', 'babel-plugin-transform-runtime', 'babel-plugin-transform-object-rest-spread'],
                 },
             }],
@@ -228,7 +238,21 @@ var defConfig = {
                     },
                     babel: {
                         babelrc: false,
-                        presets: ['es2015', 'stage-2'],
+                        // presets: ['es2015', 'stage-2'],
+                        presets: [
+                            ['es2015', { 'modules': false }],
+                            'stage-2',
+                            // 'stage-3',
+                            // 'stage-0',
+                        ],
+                        /*presets: [
+                            ['es2015', {modules: false}],
+                            ['stage-0'],
+                            ['stage-1'],
+                            ['stage-2'],
+                            ['stage-3'],
+                        ],*/
+                        plugins: ['transform-es2015-destructuring', ['transform-object-rest-spread', { 'useBuiltIns': true }]],
                         // plugins: ['transform-runtime', 'babel-plugin-transform-runtime', 'babel-plugin-transform-object-rest-spread']
                     },
                 },
@@ -255,13 +279,35 @@ var defConfig = {
         }, {
             test: /\.(png|svg|jpg|jpeg|gif)?$/,
             // use: 'file-loader?name='+(isDev? 'img/[name].[ext]': 'img/[hash:8].[ext]'),
-            use: 'file-loader?name='+(isDev? 'img/[name].[ext]': 'img/[name].[ext]'),
-            // use: 'file-loader?name=public/fonts/[name].[ext]',
+            // use: 'file-loader?name='+(isDev? 'img/[name].[ext]': 'img/[name].[ext]'),
+            use: [{
+                loader: 'file-loader',
+                options: {
+                    name: file => {
+                        let prj = '';
+                        if (file.indexOf('img\\portfolio\\') !== -1) {
+                            let f = file.split('\\');
+                            prj = 'portfolio/' + f[f.length - 2] + '/';
+                        }
+                        return 'img/'+prj+'[name].[ext]';
+                    },
+                }
+            }],
         }, /*{
+            test: /\/\d+\.(png|svg|jpg|jpeg|gif)$/,
+            use: [{
+                loader: 'file-loader',
+                options: {
+                    // regExp: /\/([a-z0-9]+)\/[a-z0-9]+\.(png|svg|jpg|jpeg|gif)$/,
+                    name: 'img/[path][name].[ext]'
+                }, 
+            }],
+            // use: 'file-loader?name=public/fonts/[name].[ext]',
+        }, */{
             test: /\.(eot|svg|ttf|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
             use: 'file-loader?name='+(isDev? 'fonts/[name].[ext]': 'fonts/[hash:8].[ext]'),
             // use: 'file-loader?name=public/fonts/[name].[ext]',
-        }, {
+        }, /*{
             test: /\.ico$/,
             use: [{
                 loader: 'url-loader?limit=10000&name=img/favicon.ico',
@@ -301,7 +347,8 @@ if (isDev) {
         inline: true,
         // hot: true,
         port: 88,
-        host: 'localhost',
+        // host: 'localhost',
+        host: 'loc.slaawwa.io',
         // filename: '[name].js',
         publicPath: '/',
         disableHostCheck: true,

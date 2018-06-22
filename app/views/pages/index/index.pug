@@ -4,15 +4,36 @@ block append _var
     - 
         title = 'Best Practice' + (_title? ' &bullet; '+_title: '')
         header = 'appHeader'
-        footer = 'appFooter'
+        footer = 'appFooter';
     //- title= title
 
-//- block styles
+block nav
+    #bs-example-navbar-collapse-1.collapse.navbar-collapse
+        ul.nav.navbar-nav
+            -
+                var menu = [
+                    {path: '/', name: 'Резюме'},
+                    {path: '/portfolio', name: 'Портфоліо'},
+                ];
+            each i in menu
+                - ;
+                li
+                    a(href='/resume/#'+i.path) #{i.name}
+
+block styles
     style.
-        #tools-for-frontend-my-best-feature {
-            font-weight: 700;
+        #disqus_thread {
+            /*background-color: #1b2d44;*/
+            /*background-color: rgba(27, 45, 68, 0.15);
+            padding: 5px 15px;
+            border-radius: 5px;*/
+            /*margin-left: 230px;
+            margin-right: -14px;*/
+            padding: 5px 15px;
+            /*border-top: 1px solid rgba(27, 45, 68, 0.15);*/
         }
 
+//- block prepend content
 block content
     .row
         .col-md-3
@@ -25,6 +46,33 @@ block content
                         | 
                         span(v-cloak) {{ item.name }}
         .col-md-9
+            button#showComment.btn.btn-primary(data-toggle="modal" data-target="#commentModal")
+                i.glyphicon.glyphicon-comment
+                | 
+                | Коментарі
+                | 
+                span.badge.disqus-comment-count(data-disqus-identifier="root")
+
+            #commentModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='commentModalLabel')
+                .modal-dialog.modal-lg(role='document')
+                    .modal-content
+                        header.modal-header
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') &times;
+                            h4.modal-title Коментарі
+                        .modal-body
+                            #disqus_thread
+                            //- form
+                                .form-group
+                                    label.control-label(for='recipient-name') Recipient:
+                                    input#recipient-name.form-control(type='text')
+                                .form-group
+                                    label.control-label(for='message-text') Message:
+                                    textarea#message-text.form-control
+                        //- footer.modal-footer
+                            button.btn.btn-default(type='button', data-dismiss='modal') Close
+                            button.btn.btn-primary(type='button') Send message
+
             ol.breadcrumb.sPage.row(v-cloak v-if='menu.top.items.length')
                 li
                     a(
@@ -62,12 +110,57 @@ block content
                     div(v-else='' v-cloak)
                         //- p!= htmlWebpackPlugin.options.content
                         | Щось сталося:( Нажаль сторінку не знайдено(
+                    //- hr
+                    //- data-disqus-url="http://localhost:88/#disqus_thread"
+                    //- span.disqus-comment-count(
+                            data-disqus-identifier="root"
+                        )
+                    //- data-disqus-identifier="home"
+                    //- span.disqus-comment-count(
+                            data-disqus-identifier="root"
+                        )
+                    //- span.disqus-comment-count(data-disqus-url="http://localhost:88/#disqus_thread")
+                    //- span.disqus-comment-count(data-disqus-url="https://slaawwa.github.io/#disqus_thread")
+                    //- span.disqus-comment-count(
+                            data-disqus-identifier="home"
+                            data-disqus-url="https://slaawwa-github.disqus.com/#disqus_thread"
+                        )
+                    //- data-disqus-url="https://slaawwa.github.io/#disqus_thread"
+                    //- span.disqus-comment-count(
+                            data-disqus-identifier="root"
+                        )
+                    //- span.disqus-comment-count(
+                            data-disqus-identifier="home"
+                            data-disqus-url="http://localhost:88/#disqus_thread"
+                        )
+                    //- data-disqus-identifier="home"
+                    //- span.disqus-comment-count(data-disqus-url="http://localhost:88/#disqus_thread")
+                    //- a(href="http://localhost:88/#disqus_thread" data-disqus-identifier="home")
+                    //- a.disqus-comment-count(href="https://slaawwa-github.disqus.com/#disqus_thread")
+                    //- hr
+
             //- hello
     //- #app
         //- p(v-html='m')
     //- p!= htmlWebpackPlugin.options.content
-block _end
-//- block scripts
+//- block _end
+    //- script.
+        function (b){
+            for(var c,a,d,e=b.counts,b=b.text.comments;c=e.shift();)
+                if(a=j[c.id]){
+                    switch(c.comments){
+                        case 0:d=b.zero;break;
+                        case 1:d=b.one;break;
+                        default:d=b.multiple
+                    }
+                    c=d.replace("{num}",c.comments);
+                    a=a.elements;
+                    for(d=a.length-1;d>=0;d--)
+                        a[d].innerHTML=c
+                }
+            }
+block scripts
+    script#dsq-count-scr(src='//slaawwa-github.disqus.com/count.js' async)
     //- +script('https://cdn.jsdelivr.net/npm/vue')
 //- doctype html
 //- html

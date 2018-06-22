@@ -2,7 +2,7 @@
 block _var
     //- in page use `block append _var`
     - 
-        _title = 'Slaawwa'
+        _title = 'Slaawwa';
 include _mixin
 doctype html
 //- +vvar(title, _title)
@@ -12,9 +12,11 @@ html
         block _head
             block head
                 title!= title
+                - ;
                 meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
                 meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
-                link(rel='icon', type='image/x-icon', href='/favicon-1.ico')
+                //- link(rel='icon', type='image/x-icon', href='/favicon.ico')
+                //- link(rel='icon', type='image/x-icon', href='/favicon-1.ico')
                 //- link(rel='icon', type='image/x-icon', href='/favicon-0.ico')
                 //- link(rel='icon', type='image/png', href='/static/admin/favicon-16x16.png', sizes='16x16')
             //- +script('ll')
@@ -29,25 +31,37 @@ html
         #app.container
             block header
                 if header
+                    - ;
                     if header === 'appHeader'
+                        - ;
                         include ../partials/appHeader.pug
 
             //- h1 Hi, from PUG!!
             //- p= '`-'+title
             block content
                 | !{content}
+                if !hideDisqus
+                    -;
+                    a(href="http://slaawwa-github.disqus.com/#disqus_thread") Link
+                    #disqus_thread
             //- p= '`-'+title
 
             //- include ../partials/foot
             block footer
                 if footer
+                    - ;
                     if footer === 'appFooter'
+                        - ;
                         include ../partials/appFooter.pug
                 else
                     h1 Def footer `#{dd}`!
 
         block _end
+            +script(
+                    '//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js',
+                    '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'
+                )
             //- <script src="//ajax.googleapis.com/ajax/libs/jquery/latest/jquery.js"></script>
-            script(src='//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js ')
+            //- script(src='//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js ')
             //- script(src='/static/main.js')
             block scripts

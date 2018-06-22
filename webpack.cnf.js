@@ -26,6 +26,7 @@ let path = require('path'),
                             readme = fs.readFileSync(readme, 'utf8');
                             htmlOpt.content = marked(readme);
                         }*/
+                        console.log(' => module:', module)
                         plugins.push(new HTMLWebpackPlugin({
                             filename: `${module}.html`,
                             template: `./app/views/pages/${module}/index.pug`,

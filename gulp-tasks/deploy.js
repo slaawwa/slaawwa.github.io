@@ -5,7 +5,8 @@ var gulp = require('gulp'),
 
 exports.task = function(callback) {
 
-    return gulp.src(['./dist/**/*', './app/_pages/**/*'])
+    // return gulp.src(['./dist1/**/*', './app/_pages/**/*'])
+    return gulp.src('./dist/**/*')
         .pipe($.ghPages({
             branch: 'master',
             // remoteUrl: 'blabla.git',

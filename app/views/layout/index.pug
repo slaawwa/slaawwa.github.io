@@ -8,10 +8,15 @@ html(ng-app='app')
         block _head
             //- link(rel='icon', type='image/jpeg', href='/admin/static/img/favicon.png')
             block head
+
                 if title
-                    title= title + ' | Karma'
+                    //- TODO: It because break syntax highlight
+                    - ;
+                    title #{title} | Karma
                 else
                     title Karma
+            - ;
+
             meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
             meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
             link(rel='icon', type='image/png', href='/static/admin/favicon-16x16.png', sizes='16x16')
@@ -23,6 +28,7 @@ html(ng-app='app')
                 )
                     //- 'https://fonts.googleapis.com/icon?family=Material+Icons',
                     //- '/admin/static/node_modules/material-design-lite/material.cyan-light_blue.min.css',
+                - ;
                 block styles
                     +style(
                         '/static/admin/style.css'

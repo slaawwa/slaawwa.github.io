@@ -1,0 +1,66 @@
+extends ../../layout/layout
+
+block append _var
+    - 
+        title = 'Резюме &bullet; Кушніра В&apos;ячеслава &bullet; Web Craftsman' + (_title? ' &bullet; '+_title: '')
+        header = 'appHeader'
+        footer = 'appFooter',
+        content = '<router-view class="view"></router-view>',
+        hideDisqus = true;
+
+
+block nav
+    #bs-example-navbar-collapse-1.collapse.navbar-collapse(
+            :class="{in: menuOpen}"
+        )
+        ul.nav.navbar-nav
+            -
+                var menu = [
+                    {path: '/', name: 'Резюме'},
+                    {path: '/portfolio', name: 'Портфоліо'},
+                ];
+            each i in menu
+                - ;
+                li(:class="{active: '"+i.path+"' === $route.fullPath}")
+                    router-link(to=i.path) #{i.name}
+
+        ul.nav.navbar-nav.navbar-right
+            -
+                var menu = [
+                    {link: 'http://github.com/slaawwa/', name: 'GitHub'},
+                    {link: 'https://stackoverflow.com/users/2661164/slaawwa', name: 'StackOverflow'},
+                    {link: 'https://codepen.io/slaawwa/', name: 'CodePen'},
+                ];
+            each i in menu
+                - ;
+                li(:class="{active: '"+i.path+"' === $route.fullPath}")
+                    a(href=i.link, target="_blank") #{i.name}
+                    //- router-link(to=i.path) #{i.name}
+            li.dropdown(
+                    :class="{open: menuRightOpen}"
+                    @mouseover="menuRightOpen = true",
+                    @mouseleave="menuRightOpen = false"
+                )
+                a.dropdown-toggle(onclick='return false', href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+                    | More 
+                    span.caret    
+                -
+                    var menu = [
+                        {link: 'https://www.linkedin.com/in/slaawwa/', name: 'LinkedIn'},
+                        {link: 'skype:slaawwa', name: 'Skype', target: '_self'},
+                        {link: 'https://t.me/slaawwa', name: 'Telegram'},
+                        {link: 'https://vk.com/slaawwa', name: 'VKontakte'},
+                        {link: 'https://facebook.com/slaawwa', name: 'FaceBook'},
+                        {link: 'https://instagram.com/slaawwa/', name: 'Instagram'},
+                        {link: 'https://www.youtube.com/channel/UCVMGafglp3s8S6t8PRAPgwQ/', name: 'YouTube'},
+                    ];
+                ul#menuRightDD.dropdown-menu
+                    each i in menu
+                        - ;
+                        li 
+                            a(href=i.link, target=i.target || "_blank") #{i.name}
+                //- li.divider(role='separator')
+
+
+block styles
+block _end

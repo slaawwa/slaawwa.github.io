@@ -25,6 +25,7 @@ function getWatchFunction(path, triggerTasks) {
             else {
                 getJsRecursive(base + element + '/', files);
             }
+            console.log('files::', files);
             return files;
         }, files);
 })('', []).forEach(function(path) {
@@ -34,7 +35,10 @@ function getWatchFunction(path, triggerTasks) {
             .substr(0, path.length - 3)
             .replace(SLASH_GLOBAL_REGEXP, '-');
 
-    gulp.task(name, contents.dependencies, contents.task);
+    console.log('name::', name);
+    console.log('contents::', contents);
+
+    gulp.task(name, /*contents.dependencies,*/ contents.task);
     if (watchTask) {
         if (typeof watchTask !== 'function') {
             watchTask = getWatchFunction(watchTask, contents.watchTasks || [name]);
