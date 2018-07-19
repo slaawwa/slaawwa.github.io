@@ -1,0 +1,56 @@
+doctype html
+html
+    head
+        meta(charset="utf-8")
+        block _head
+            //- link(rel='icon', type='image/jpeg', href='/admin/static/img/favicon.png')
+            block head
+
+                if title
+                    //- TODO: It because break syntax highlight
+                    title #{title} | SiteName
+                else
+                    title SiteName
+
+            meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+            meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
+            link(rel='icon', type='image/png', href='/static/admin/favicon-16x16.png', sizes='16x16')
+
+            block _endHead
+                //- +style(
+                //-     '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+                //-     '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css'
+                //- )
+                    //- 'https://fonts.googleapis.com/icon?family=Material+Icons',
+                    //- '/admin/static/node_modules/material-design-lite/material.cyan-light_blue.min.css',
+                block styles
+                    //- +style(
+                    //-     '/static/admin/style.css'
+                    //- )
+    body
+
+        #content
+
+            block header
+                //- include ../partials/adminHeader.pug
+
+            main
+                block content
+                    | !{content}
+
+            block footer
+                //- include ../partials/foot
+
+        block _endBody
+            //- 'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js',
+            //- +script(
+                '//code.jquery.com/jquery-3.2.1.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js',
+            //- +script(
+            //-         '//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js',
+            //-         '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
+            //-         '//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.7/angular.min.js'
+            //-     )
+            script(src='//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+
+            block scripts

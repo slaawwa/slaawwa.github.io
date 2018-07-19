@@ -13,6 +13,7 @@
 
  - ## Extra
 
+    - [devdocs.io](https://devdocs.io) - 'All' developers documentations in one place
     - [cmder.net](https://cmder.net) - CMD for window
     - [Git Extensions](https://github.com/gitextensions/gitextensions) - Client for GIT on window
     - [Static server on nodeJS](https://www.npmjs.com/package/node-static#installation) - node-static

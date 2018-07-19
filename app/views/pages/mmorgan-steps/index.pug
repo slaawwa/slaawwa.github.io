@@ -1,0 +1,350 @@
+
+extends layout
+
+block styles
+  link(rel="stylesheet", href='http://filterpro.nodeserver.net/css/app.css?10')
+  style.
+    #isResultBlock:not([data-step1='myself']) .isMyself,
+    #isResultBlock:not([data-step1='buisness']) .isBuisness,
+    #isResultBlock:not([data-step1='office']) .isOffice,
+    #isResultBlock:not([data-step3='drinking']) .isDrinking,
+    #isResultBlock:not([data-step3='clear']) .isClear,
+    #isResultBlock:not([data-step3='drink-clear']) .isDrinkClear {
+      display: none;
+    }
+
+block content
+  section.section.section--calculator
+    .container
+      header.section__header
+        .h2
+          | @lang('Ответьте на несколько вопросов — наш сервис подбора определит, какой фильтр вам подходит')
+        .head-line
+      form(action='#')
+        .block-calculator.isFirst(style='padding-bottom: 75px')
+          .progress
+            .progress-bar(role='progressbar', aria-valuenow='65', aria-valuemin='0', aria-valuemax='100', style='width:20%')
+          .row
+            .col-md-12
+              .box__header.calculator__header
+                .lead--xlarge
+                  span.number_head 1
+                  | @lang('Для чего вам нужен фильтр?')
+              .box__content.fixed-flex
+                .radiogroup.radiogroup--ter
+                  .radiogroup__block
+                    label.radio-themed(for='myself')
+                      input#myself.sr-only.radiobtn(type='radio', value='myself', name='work-ter')
+                      span.radio-themed__label
+                        span.icon
+                        | @lang('Для себя')
+                      span.radio-themed__icon.radio-themed__icon--img
+                        img.init(src='/images/calculator/myself.jpg', alt='', width='189')
+                  .radiogroup__block
+                    label.radio-themed(for='buisness')
+                      input#buisness.sr-only.radiobtn(type='radio', value='buisness', name='work-ter')
+                      span.radio-themed__label
+                        span.icon
+                        | @lang('Для бизнеса')
+                      span.radio-themed__icon.radio-themed__icon--img
+                        img.init(src='/images/calculator/production.jpg', alt='', width='189')
+                  .radiogroup__block
+                    label.radio-themed(for='office')
+                      input#office.sr-only.radiobtn(type='radio', value='office', name='work-ter')
+                      span.radio-themed__label
+                        span.icon
+                        | @lang('Для офиса')
+                      span.radio-themed__icon.radio-themed__icon--img
+                        img.init(src='/images/calculator/office.jpg', alt='', width='189')
+              .calculator__footer
+                .calc__nav
+                  .last
+                    input.nexts.btn.btn-md.callback-head-wrapper.btn-last(type='button', value='Далее')
+        .block-calculator
+          .progress
+            .progress-bar(role='progressbar', aria-valuenow='65', aria-valuemin='0', aria-valuemax='100', style='width:40%')
+          .row
+            .col-md-12
+              .box__header.calculator__header
+                .lead--xlarge
+                  span.number_head 2
+                  | @lang('В каком типе жилья планируется использование?')
+              .box__content.fixed-flex
+                .radiogroup.radiogroup--ter
+                  .radiogroup__block
+                    label.radio-themed(for='appartaments')
+                      input#appartaments.sr-only.radiobtn(type='radio', value='appartaments', name='work-ter')
+                      span.radio-themed__label
+                        span.icon
+                        | @lang('Квартира')
+                      span.radio-themed__icon.radio-themed__icon--img
+                        img.init(src='/images/calculator/appartaments.jpg', alt='', width='189')
+                  .radiogroup__block
+                    label.radio-themed(for='builds')
+                      input#builds.sr-only.radiobtn(type='radio', value='builds', name='work-ter')
+                      span.radio-themed__label
+                        span.icon
+                        | @lang('Частный дом')
+                      span.radio-themed__icon.radio-themed__icon--img
+                        img.init(src='/images/calculator/private_hous.jpg', alt='', width='189')
+              .calculator__footer
+                .calc__nav
+                  .first
+                    input.lasts.btn.btn-md.btn-prev(type='button', value='Назад')
+                  .last
+                    input.nexts.btn.btn-md.callback-head-wrapper.btn-last(type='button', value='Далее')
+        #isStep3Block.block-calculator
+          .progress
+            .progress-bar(role='progressbar', aria-valuenow='65', aria-valuemin='0', aria-valuemax='100', style='width:60%')
+          .row
+            .col-md-12
+              .box__header.calculator__header
+                .lead--xlarge
+                  span.number_head 3
+                  | @lang('Какая вода вам нужна?')
+              .box__content.fixed-flex
+                .radiogroup.radiogroup--ter
+                  .radiogroup__block
+                    label.radio-themed(for='drinking')
+                      input#drinking.sr-only.radiobtn(type='radio', value='drinking', name='work-ter')
+                      span.radio-themed__label
+                        span.icon
+                        | @lang('Питьевая')
+                      span.radio-themed__icon.radio-themed__icon--img
+                        img.init(src='/images/calculator/drinking.jpg', alt='', width='189')
+                  .radiogroup__block
+                    label.radio-themed(for='clear')
+                      input#clear.sr-only.radiobtn(type='radio', value='clear', name='work-ter')
+                      span.radio-themed__label
+                        span.icon
+                        | @lang('Чистая бытовая')
+                      span.radio-themed__icon.radio-themed__icon--img
+                        img.init(src='/images/calculator/clean.jpg', alt='', width='189')
+                  .radiogroup__block
+                    label.radio-themed(for='drink-clear')
+                      input#drink-clear.sr-only.radiobtn(type='radio', value='drink-clear', name='work-ter')
+                      span.radio-themed__label
+                        span.icon
+                        | @lang('Питьевая и чистая бытовая')
+                      span.radio-themed__icon.radio-themed__icon--img
+                        img.init(src='/images/calculator/clean_drink.jpg', alt='', width='189')
+              .calculator__footer
+                .calc__nav
+                  .first
+                    input.lasts.btn.btn-md.btn-prev(type='button', value='Назад')
+                  .last
+                    input.nexts.btn.btn-md.callback-head-wrapper.btn-last(type='button', value='Далее')
+        .block-calculator
+          .progress
+            .progress-bar(role='progressbar', aria-valuenow='65', aria-valuemin='0', aria-valuemax='100', style='width:80%')
+          .row
+            .col-md-12
+              .box__header.calculator__header
+                .lead--xlarge.lead--xlarge__bottom
+                  span.number_head 4
+                  | @lang('Какие сейчас проблемы с водой?')
+              .box__content.fixed-flex
+                ul.list--calculator
+                  li
+                    label.radio-themed(for='composition')
+                      input#composition.sr-only.radiobtn(type='radio', value='composition', name='work-ter')
+                      span.radio-themed__list-calc
+                        span.icon
+                        | @lang('Вредный состав')
+                  li
+                    label.radio-themed(for='smell')
+                      input#smell.sr-only.radiobtn(type='radio', value='smell', name='work-ter')
+                      span.radio-themed__list-calc
+                        span.icon
+                        | @lang('Неприятный запах')
+                  li
+                    label.radio-themed(for='taste')
+                      input#taste.sr-only.radiobtn(type='radio', value='taste', name='work-ter')
+                      span.radio-themed__list-calc
+                        span.icon
+                        | @lang('Неприятный вкус')
+                  li
+                    label.radio-themed(for='tough')
+                      input#tough.sr-only.radiobtn(type='radio', value='tough', name='work-ter')
+                      span.radio-themed__list-calc
+                        span.icon
+                        | @lang('Слишком жосткая')
+                  li
+                    label.radio-themed(for='not-like')
+                      input#not-like.sr-only.radiobtn(type='radio', value='not-like', name='work-ter')
+                      span.radio-themed__list-calc
+                        span.icon
+                        | @lang('"Она мне просто не нравится"')
+              .calculator__footer
+                .calc__nav
+                  .first
+                    input.lasts.btn.btn-md.btn-prev(type='button', value='Назад')
+                  .last
+                    input.nexts.btn.btn-md.callback-head-wrapper.btn-last(type='button', value='Далее')
+        #isResultBlock.block-calculator
+          .row.vcenter
+            .col-md-7.col-xs-12
+              .box
+                .line-mini
+                .lead--xlarge @lang('Примеры возможных решений')
+              //- .owl-carousel.owl-theme.owl-carousel-informer[data-type='myself']
+              //- .owl-carousel.owl-theme.owl-carousel-informer[data-type='buisness']
+              //- .owl-carousel.owl-theme.owl-carousel-informer[data-type='office']
+              .owl-carousel1.owl-theme.owl-carousel-informer.isMyself
+                .informer-item.informer-item_calc
+                  a(data-toggle='modal', data-target='#infoFilterkModal')
+                    .row
+                      .col-md-5
+                        img.img-responsive(src='/images/filter/apartament/find-tech-pro.png', alt='')
+                      .col-md-7
+                        .box--informer__body-two__header
+                          | @lang('Фильтр
+                          br
+                          |  обратного осмоса')
+                        .box--informer__body-two__footer
+                          ul.owl-informer-list
+                            li @lang('самая совершенная технология очистки')
+                            li @lang('минирализация')
+                            li @lang('компактный размер')
+                        .box--informer__body-two__price
+                          | @lang('от') 
+                          span 30 000 Т
+                        .offset-top--medium.offset-top-xs--small.offset-top-xxs--medium.madal-button
+                          button.btn.btn--callback(type='button', data-toggle='modal', data-target='#callBackModal', data-page='Главная', data-dismiss='modal') @lang('Получить консультацию')
+                .informer-item.informer-item_calc
+                  a(data-toggle='modal', data-target='#infoFilterkModal')
+                    .row
+                      .col-md-5
+                        img.img-responsive(src='/images/filter/apartament/find-tech.png', alt='')
+                      .col-md-7
+                        .box--informer__body-two__header
+                          | @lang('Фильтр
+                          br
+                          |  обратного осмоса')
+                        .box--informer__body-two__footer
+                          ul.owl-informer-list
+                            li @lang('самая совершенная технология очистки')
+                            li @lang('минирализация')
+                            li @lang('компактный размер')
+                        .box--informer__body-two__price
+                          | @lang('от') 
+                          span 30 000 Т
+                        .offset-top--medium.offset-top-xs--small.offset-top-xxs--medium.madal-button
+                          button.btn.btn--callback(type='button', data-toggle='modal', data-target='#callBackModal', data-page='Главная', data-dismiss='modal') @lang('Получить консультацию')
+                .informer-item.informer-item_calc
+                  a(data-toggle='modal', data-target='#infoFilterkModal')
+                    .row
+                      .col-md-5
+                        img.img-responsive(src='/images/filter/house/bw-34.jpg', alt='')
+                      .col-md-7
+                        .box--informer__body-two__header
+                          | @lang('Фильтр
+                          br
+                          |  механической очистки')
+                        .box--informer__body-two__footer
+                          ul.owl-informer-list
+                            li @lang('самая совершенная технология очистки')
+                            li @lang('минирализация')
+                            li @lang('компактный размер')
+                        .box--informer__body-two__price
+                          | @lang('от') 
+                          span 30 000 Т
+                        .offset-top--medium.offset-top-xs--small.offset-top-xxs--medium.madal-button
+                          button.btn.btn--callback(type='button', data-toggle='modal', data-target='#callBackModal', data-page='Главная', data-dismiss='modal') @lang('Получить консультацию')
+                .informer-item.informer-item_calc
+                  a(data-toggle='modal', data-target='#infoFilterkModal')
+                    .row
+                      .col-md-5
+                        img.img-responsive(src='/images/filter/house/aquarum_s.jpg', alt='')
+                      .col-md-7
+                        .box--informer__body-two__header
+                          | @lang('Фильтр
+                          br
+                          |  обратного осмоса')
+                        .box--informer__body-two__footer
+                          ul.owl-informer-list
+                            li @lang('самая совершенная технология очистки')
+                            li @lang('минирализация')
+                            li @lang('компактный размер')
+                        .box--informer__body-two__price
+                          | @lang('от') 
+                          span 30 000 Т
+                        .offset-top--medium.offset-top-xs--small.offset-top-xxs--medium.madal-button
+                          button.btn.btn--callback(type='button', data-toggle='modal', data-target='#callBackModal', data-page='Главная', data-dismiss='modal') @lang('Получить консультацию')
+                .informer-item.informer-item_calc
+                  a(data-toggle='modal', data-target='#infoFilterkModal')
+                    .row
+                      .col-md-5
+                        img.img-responsive(src='/images/filter/restaurant/purifier-system.jpg', alt='')
+                      .col-md-7
+                        .box--informer__body-two__header
+                          | @lang('Фильтр
+                          br
+                          |  обратного осмоса')
+                        .box--informer__body-two__footer
+                          ul.owl-informer-list
+                            li @lang('самая совершенная технология очистки')
+                            li @lang('минирализация')
+                            li @lang('компактный размер')
+                        .box--informer__body-two__price
+                          | @lang('от') 
+                          span 30 000 Т
+                        .offset-top--medium.offset-top-xs--small.offset-top-xxs--medium.madal-button
+                          button.btn.btn--callback(type='button', data-toggle='modal', data-target='#callBackModal', data-page='Главная', data-dismiss='modal') @lang('Получить консультацию')
+              
+              .isOffice
+                span.isDrinking isDrinking
+                span.isClear isClear
+                span.isDrinkClear isDrinkClear
+
+              .isBuisness
+                span.isDrinking isDrinking
+                span.isClear isClear
+                span.isDrinkClear isDrinkClear
+              
+              .owl-carousel1.owl-theme.owl-carousel-informer.isOffice
+                | isOffice | 
+              .owl-carousel1.owl-theme.owl-carousel-informer.isBuisness
+                | isBuisness
+              .calculator__footer.calculator__footer__end
+                .calc__nav
+                  .first
+                    input.lasts.btn.btn-md.btn-prev(type='button', value='Назад')
+            .col-md-5.col-xs-12
+              .calc-form.mob-min
+                .calc-form__head
+                  p
+                    | @lang('Хотите знать точно, какой фильтр вам нужен? Заказывайте экспресс-тест воды.')
+                .calc-form__body
+                  p @lang('Оставляйте заявку и мы расскажем о тесте и фильтрах детальнее.')
+                .block.block--medium
+                  .box.box--xlarge.box--form.box--bg-white.box--has-shadow-xxl-light.mob-min
+                    .box__content
+                      .stat.stat--sm-column
+                        .box.box--xlarge.box--form.box--bg-white.box--has-shadow-xxl-light.mob-min
+                          form.form-validate.form(action="{{ route('callback-form') }}", method='POST')
+                            | {{ csrf_field() }}
+                            input(type='hidden', name='page', value='')
+                            input(type='hidden', name='action', value='Заявка на обратный звонок')
+                            .form__content
+                              .form-group.form-group--xlarge.input-animated
+                                label.sr-only(for='#request-name') @lang('Ваше имя')
+                                input#request-name.input--transparent(type='text', name='name')
+                                .input-animated__placeholder.text-left @lang('Ваше имя')
+                              .form-group.form-group--xlarge.input-animated
+                                label.sr-only(for='#request-phone') @lang('Номер телефона')
+                                input#request-phone.input--transparent.phone-mask(type='text', name='phone')
+                                .input-animated__placeholder.text-left @lang('Номер телефона')
+                              .form-group.last
+                                button.btn.btn--callback.btn-submit(type='button') @lang('Выбрать фильтр')
+                            .form__message.text-center
+                              .block__header.block__header--medium
+                                i.fa.fa-check.text-yellow(area-hidden='true', style='font-size: 10em;')
+                              .block__header
+                                .h3 @lang('Спасибо!')
+                              .block__content
+                                p @lang('Мы свяжемся с вами в ближайшее время.')
+                #block8.phone-box
+                  p @lang('Или звоните нам:')
+                  a.phone-box__link.phone-box__link--medium.phone-box__link--inherit(href='tel:+77273280019') +7 (727) 328-00-19
+        
