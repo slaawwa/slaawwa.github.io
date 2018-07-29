@@ -39,6 +39,7 @@
             height: auto;
             max-width: 250px;
             width: 100%;
+            min-width: 78px;
             vertical-align: middle;
             border: 0;
         }
@@ -76,6 +77,19 @@
         }
         .resume-photo{
             text-align: center;
+        }
+    }
+    @media print {
+        .col-sm-5 {
+            min-width: 41.66666667% !important;
+            max-width: 41.66666667% !important;
+        }
+        .col-sm-2 {
+            min-width: 16.66666667% !important;
+            max-width: 16.66666667% !important;
+        }
+        .col-sm-2, .col-sm-5 {
+            float: left;
         }
     }
 </style>

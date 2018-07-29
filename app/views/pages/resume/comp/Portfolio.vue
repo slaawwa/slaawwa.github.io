@@ -2,11 +2,14 @@
 <template lang="pug">
     div
         //- Header
-        page-header(:title='title')
+        page-header(
+            :title='const1[$root.lang].portfolio'
+            :name="header[$root.lang].name"
+        )
 
         //- Content
         #resume-content
-            - 
+            -
                 def_img = 'def/thumb_4.png';
 
                 pList = [
@@ -797,7 +800,6 @@
             //- TODO: Modify this logic and delete this shit!
             textarea.hide !{JSON.stringify(pList)}
             each i, index in pList
-                -;
                 .gal-item
                     a.image(href=i.link, @click.prevent="workClick("+index+")", :class="{active_site: "+index+" === index}")
                         - img = i.show && i.img.thumb.length? i.img.thumb[0]: def_img;
@@ -805,7 +807,6 @@
                         img(src="../img/portfolio/"+img, alt=i.name)
                     .text #{i.name}
         #it_content(data-empty='Оберіть роботу для перегляду')
-            //- h2 
             div(v-if="selectWork !== -1")
 
                 h2.text-center
@@ -849,6 +850,8 @@
 <script>
 
     // import { mapGetters } from 'vuex';
+    import {header, _const} from './langs'
+
 
     export default {
         data() {
@@ -864,6 +867,8 @@
 
                 // TODO: Modify this logic!!!!
                 user: {},
+                header,
+                const1: _const,
                 total: 0,
                 users: [],
                 registrations: [],

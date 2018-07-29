@@ -19,12 +19,14 @@ block nav
         ul.nav.navbar-nav
             -
                 var menu = [
-                    {path: '/', name: 'Резюме'},
-                    {path: '/portfolio', name: 'Портфоліо'},
+                    {path: '/', name: {ua: 'Резюме', en: 'Resume'}},
+                    {path: '/portfolio', name: {ua: 'Портфоліо', en: 'Portfolio'}},
                 ];
             each i in menu
                 li(:class="{active: '"+i.path+"' === $route.fullPath}")
-                    router-link(to=i.path) #{i.name}
+                    router-link(to=i.path)
+                        template(v-if="'ua' === lang")= i.name.ua
+                        template(v-if="'en' === lang")= i.name.en
 
         //- .navbar-right
             .navbar-header
@@ -74,7 +76,14 @@ block append footerRightPart
         li.dropdown(
                 :class="{open: menuLangRightOpen}"
             )
-            a.dropdown-toggle(onclick='return false', href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+            a.dropdown-toggle.text-center(
+                    onclick='return false'
+                    href='#'
+                    data-toggle='dropdown'
+                    role='button'
+                    aria-haspopup='true'
+                    aria-expanded='false'
+                )
                 span.langFlags(:data-lang="lang")
             - 
                 lang = [
@@ -139,6 +148,15 @@ block styles
         }
         .langFlagsB[data-lang="en"]:before, .langFlags[data-lang="en"] {
             background-position-y: -11px;
+        }
+        @media(max-width: 767px) {
+            #app > footer p.navbar-text.navbar-right,
+            #app > footer ul.nav.navbar-nav.navbar-right.dropup {
+                min-width: 50%;
+                max-width: 50%;
+                margin: 0;
+                display: inline-block;
+            }
         }
     //- style.
         #menuRightDD {
