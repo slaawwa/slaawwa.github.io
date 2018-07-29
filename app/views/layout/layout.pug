@@ -12,7 +12,6 @@ html
         block _head
             block head
                 title!= title
-                - ;
                 meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
                 meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
                 //- link(rel='icon', type='image/x-icon', href='/favicon.ico')
@@ -31,9 +30,7 @@ html
         #app.container
             block header
                 if header
-                    - ;
                     if header === 'appHeader'
-                        - ;
                         include ../partials/appHeader.pug
 
             //- h1 Hi, from PUG!!
@@ -41,7 +38,6 @@ html
             block content
                 | !{content}
                 if !hideDisqus
-                    -;
                     a(href="http://slaawwa-github.disqus.com/#disqus_thread") Link
                     #disqus_thread
             //- p= '`-'+title
@@ -49,9 +45,7 @@ html
             //- include ../partials/foot
             block footer
                 if footer
-                    - ;
                     if footer === 'appFooter'
-                        - ;
                         include ../partials/appFooter.pug
                 else
                     h1 Def footer `#{dd}`!

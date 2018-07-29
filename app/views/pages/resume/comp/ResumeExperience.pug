@@ -1,0 +1,60 @@
+
+//- Experience
+- 
+    experience = [
+        {
+            name: 'ProgForce (FrontEnd)', 
+            helper: '2015-2018',
+            desc: 'Молода фірма по outsource розробці та підтримці сайтів закордонних клієнтів. З офісами в Росії, Ізраїлі, СШA та Укрїні. Перевела мене на якісно новий рівень роботи в команді, а також познайомила з java (spring, jsp) та nodejs (jade, mongo, gulp та WebPack2).',
+            result: '1. SwagBucks.com<br>\
+              2. LiveRaise.com<br>\
+              3. jQuery.time.js<br>\
+              4. Karma project'
+        }, {
+            name: 'Go-games.org (Web програміст)', 
+            helper: '2013-2014',
+            desc: 'Маленька фірма по розробці ігор для соціальної мережі facebook. Змусила мене зробити величезний крок у використанні linux, а також вивчення python та framework`a django. Ще зрозуміти особливість командної роботи, що на практиці не така проста.',
+            result: '1. Notisend<br>\
+              2. SexyGame<br>\
+              3. GameOfTiles<br>\
+              4. Game&MovieQuiz'
+        }, {
+            name: 'КПІ ПБФ (лаборант)',
+            helper: '2012',
+            desc: 'Допомога викладачу проводити заняття, а також обслуговування комп&apos;ютерного класу.<br> Був одним з організаторів гуртка "NERV", що займався навчанням студенів у програмуванні.<br>Також після занять з колегами було створено кілька проектів за власної ініціативи.',
+            result: '1. FindIt<br>\
+              2. PasteTrack<br>\
+              3. TFN<br>\
+              4. Weeker<br>\
+              5. SecurityPass'
+        }, {
+            name: 'uWorld (Web програміст)',
+            helper: '2011',
+            desc: 'Невеличка фірма по роботі з клієнтами.<br> Створеня "двигунців" для сайтів, робота з CMS (Joomla, Drupal), різного роду завдання з JavaScript та JQuery. А також виконання ТЗ замовників.',
+            result: '1. Drupal pictures<br>\
+              2. LightBox<br>\
+              3. Joomla site'
+        }
+    ]
+
+.experience
+    h3.title-icon.pull-left
+        i.icofont-briefcase
+    .title
+        h3.border-black
+            span(v-if="'ua' == $root.lang") Досвід роботи
+            span(v-else) Experience
+    each i in experience
+        .row-fluid
+            .span6
+                .pull-right
+                    p.experience-name #{i.name}
+                    p.experience-helper.muted.pull-right #{i.helper}
+            .span6
+                p.description.it_block
+                    | !{i.desc}
+                p.description.it_block
+                    | Результати:
+                    br
+                    | !{i.result}
+

@@ -1,0 +1,26 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset="utf-8")
+        title Vue-routing
+    body
+        #app
+            h1 Vue-routing
+            hr
+            a(href='#/') App
+            | 
+            a(href='#/home') Home
+            | 
+            a(href='#/users') Users
+            | 
+            a(href='#/user/5') User #5
+            hr
+            router-link(to='/') App
+            |  | 
+            router-link(to='/home') Home
+            |  | 
+            router-link(to='/users') Users
+            |  | 
+            router-link(to='/user/10') User #10
+            hr
+            router-view.view

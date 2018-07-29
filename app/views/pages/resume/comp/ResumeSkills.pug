@@ -1,0 +1,120 @@
+
+//- Skills
+- 
+    skills = [
+        [
+            {
+                name: 'Особисті',
+                lines: [
+                    ['Активність', 5],                                                
+                    ['Креативність', 5],
+                    ['Відповідальність', 6],
+                    ['Цілеспрямованість', 6],
+                    ['Фізичні дані', 6],
+                    ['Комунікативність', 5],
+                    ['Освоєння нового', 4],
+                    ['Робота в команді', 3.5],
+                ],
+            },
+            {
+                name: 'Мови',
+                lines: [
+                    ['Українська', 6],
+                    ['Англійська', 3.5],
+                    ['Російська', 5],
+                ],
+            },
+        ], [
+            {
+                name: 'Професійні<small>База</small>',
+                lines: [
+                    ['HTML5 & Pug/Jade', 6],
+                    ['CSS3 & Less', 6],
+                    ['JS & JQuery', 5],
+                    ['NodeJS', 5],
+                    ['PHP', 4.5],
+                    ['Python', 4.5],
+                    // ['Java', 2],
+                    ['MongoDB', 5],
+                    ['MySQL & SQLite', 5],
+                ]
+            }, {
+                name: '<small>FE - FrameWork</small>',
+                lines: [
+                    ['VueJS', 6],
+                    ['AngularJS', 5],
+                    ['Angular2', 4],
+                    ['React', 4],
+                ],
+            }, {
+                name: '<small>CMS & FrameWork</small>',
+                lines: [
+                    ['Hapi16/17', 5],
+                    ['Yii2', 5],
+                    ['Django', 5],
+                    ['Joomla', 3],
+                    ['WordPress', 2.5],
+                    ['Spring', 2],
+                ],
+            }, {
+                name: '<small>Графіка</small>', 
+                lines: [
+                    ['Paint.Net', 5],
+                    ['Figma', 4],
+                    ['Avocode', 4],
+                    ['CorelDraw', 3],
+                    ['PhotoShop', 2],
+                ]
+            }, {
+                name: '<small>Плюс</small>', 
+                lines: [
+                    ['Webpack', 5],
+                    ['Gulp', 5],
+                    ['Git', 5],
+                    ['Delphi (Lazarus)', 3.5],
+                    ['C++ building', 3.5],
+                    ['Java (Android)', 2.5],
+                    ['SVN', 2.5],
+                ]
+            }, {
+                name: '<small>ОС</small>',
+                lines: [
+                    ['Windows', 6],
+                    ['Unix', 4],
+                ]
+            }
+        ],
+    ]
+
+.skills
+    h3.title-icon.pull-left
+        i.icofont-bar-chart
+    .title
+        h3.border-black
+            span(v-if="'ua' == $root.lang") Мої навики
+            span(v-else) Skills
+    .row-fluid
+        .span12.offset0
+            .row-fluid
+                each skill in skills
+                    .span6
+                        each i in skill
+                            .row-fluid.topLine
+                                .span3.offset1
+                                    .skill-name !{i.name}
+                                .span8
+                                    each s in i.lines
+                                        .row-fluid.description
+                                            .span5
+                                                p #{s[0]}
+                                            .span7
+                                                - hStar =  s[1] % 1? Math.floor(s[1]): false;
+                                                each i in [0, 1, 2, 3, 4, 5, 6]
+                                                    - star = '';
+                                                    if (hStar === i)
+                                                        - star = '-half-empty';
+                                                    else if (s[1] <= i)
+                                                        - star = '-empty';
+                                                    i(class='icofont-star'+star)
+                                                    |  
+

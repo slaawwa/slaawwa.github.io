@@ -1,0 +1,74 @@
+
+//- Profile 
+-
+    profile = {
+        ua: [
+            {
+                key: 'П.І.П.',
+                val: 'Кушнір В&apos;ячеслав Володимирович'
+            }, {
+                key: 'Вік',
+                val: '{{ getOld() }} (29 лютого 1992)'
+            }, {
+                key: 'Громадянство',
+                val: 'України'
+            }, {
+                key: 'Сімейний стан',
+                val: 'Неодружений'
+            }, {
+                key: 'Адреса',
+                val: 'Київ, вул. Академіка Янгеля, 7'
+            }, {
+                key: 'Телефон',
+                val: '<i class="icofont-phone"></i> 093 056 19 63'
+            }, {
+                key: 'Пошта',
+                val: '<i class="icofont-envelope"></i> slaawwa@gmail.com'
+            },
+        ],
+        en: [
+            {
+                key: 'Full Name',
+                val: 'Viacheslav Kushnir'
+            }, {
+                key: 'Age',
+                val: '{{ getOld() }} (February 29, 1992)'
+            }, {
+                key: 'Nationality',
+                val: 'Ukrainian'
+            }, {
+                key: 'Marital status',
+                val: 'Unmarried'
+            }, {
+                key: 'Address',
+                val: 'Kyiv, str. Akademika Yangel, 7th'
+            }, {
+                key: 'Phone',
+                val: '<i class="icofont-phone"></i> 093 056 19 63'
+            }, {
+                key: 'Email',
+                val: '<i class="icofont-envelope"></i> slaawwa@gmail.com'
+            },
+        ],
+    }
+
+.row.profile
+    .col-sm-6
+        h3.title-icon.pull-left
+            i(class='icofont-user')
+        .title
+            h3.border-black(
+                    v-if="'ua' == $root.lang"
+                ) Про мене
+            h3.border-black(v-else) About me
+        //- .left
+    each info, lang in profile
+        .col-sm-6.col-sm-offset-0.col-xs-11.col-xs-offset-1.rightCol(
+                :class="{hide: '"+lang+"' !== $root.lang}"
+            )
+                each i in info
+                    .title.display-table
+                        p.border-black #{i.key}
+                        .pull-right !{i.val}
+        //- .rightCol
+                //- if (i === 'profile')

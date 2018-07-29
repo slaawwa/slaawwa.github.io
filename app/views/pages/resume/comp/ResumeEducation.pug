@@ -1,0 +1,40 @@
+
+//- Education
+- 
+    education = [
+        {
+            name: 'НТУУ "Київськй політехнічний інститут"',
+            helper: '2011 - 2017',
+            desc: 'Приладобудівний факультет<br> Кафедра "Наукових аналітичних, екологічних приладів та систем".',
+            result: 'Грамота за 1 місце з електротехніки',
+        }, {
+            name: 'НУХТ "Смілянський технікум харчових технологій"',
+            helper: '2007 - 2011',
+            desc: 'Відділення "Автоматизованих робототехнічних систем"<br>\
+              Спеціальність "Обслуговування комп&apos;ютеризованих, інтегрованих і робототехнічних систем". Може займати посади: технік комп&apos;ютеризованих систем, технік-електронік, технік-програміст, технік-системотехнік.',
+            result: '1. Червоний диплом молодшого спеціаліста<br>\
+              2. Свідоцтво оператора комп&apos;ютерного набору (2 ступеня)',
+        }
+    ]
+
+.education
+    h3.title-icon.pull-left
+        i.icofont-book
+    .title
+        h3.border-black {{curLang.education.title}}
+    each i in education
+        .row-fluid
+            .span6
+                .pull-right
+                    p.education-name #{i.name}
+                    p.education-helper.muted.pull-right #{i.helper}
+            .span6
+                p.description.it_block
+                    | !{i.desc}
+                p.description.it_block
+                    span(v-if="'ua' == $root.lang") Досягнення:
+                    span(v-else) Result:
+                    br
+                    | !{i.result}
+
+

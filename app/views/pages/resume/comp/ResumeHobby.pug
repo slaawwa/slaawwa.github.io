@@ -1,0 +1,46 @@
+
+//- Hobby
+- 
+    hobby = [
+        {
+            name: 'Біг/Run',
+            helper: 'Марафон <strong>42.195</strong> км!',
+            desc: 'Київ 8 жовтня 2017 <strong>3:58:20</strong> та Роттердам 8 квітня 2018 <strong>3:23:58</strong>)',
+        }, {
+            name: 'Батут',
+            helper: 'Крутимо сальтухи',
+            desc: 'Стрибки на батуті енергійний, цікавий і просто позитивний вид спорту',
+        }, {
+            name: 'BodyBuilding',
+            helper: 'Постійно займаюсь Ф.П. з 7 класу.',
+            desc: 'GYM, сноуборд, плавання, теніс, ролики, велосипед, регбі',
+        }, {
+            name: 'Колекція календариків',
+            helper: 'Збирав з 2000 по 2012 роки',
+            desc: 'Календарики з автомобілями по одному на кожен рік',
+        }, {
+            name: 'Малювання',
+            helper: 'Рідко але буває',
+            desc: 'Коли є вільний час і відповідає настрій простим олівцем або гелевими ручками',
+        }, {
+            name: 'Танці',
+            helper: 'FlashMob',
+            desc: 'Якось випадково потрапив до групи, що організовувала flashmob і почалося)',
+        }
+    ]
+
+.hobby
+    h3.title-icon.pull-left
+        i.icofont-lightbulb
+    .title
+        h3.border-black
+            span(v-if="'ua' == $root.lang") Хобі
+            span(v-else) Hobby
+    each i in hobby
+        .row
+            .col-xs-5.col-xs-offset-1 
+                div(style='max-width: 230px')
+                    p.hobby-name !{i.name}
+                    p.hobby-helper.muted.pull-left !{i.helper}
+            .col-sm-6
+                p.description !{i.desc}

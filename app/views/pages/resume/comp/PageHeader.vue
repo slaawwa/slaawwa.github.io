@@ -4,13 +4,13 @@
     #resume-head.grd-black
         .row
             .col-sm-5.col-md-4
-                h1 Кушнір В'ячеслав
+                h1(v-html="name")
             .col-sm-5.col-md-6
                 p {{title}}
             .col-sm-2
                 .resume-photo
                     img(src='../img/me25.jpg')
-        .row-fluid.hide
+        //- .row-fluid.hide
             .span4
                 h1.text-right Кушнір В'ячеслав
             .span6
@@ -23,7 +23,10 @@
 <script>
 
     export default {
-        props: ['title'],
+        props: {
+            title: String,
+            name: String,
+        },
     }
 
 </script>

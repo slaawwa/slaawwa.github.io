@@ -8,6 +8,9 @@ block append _var
         content = '<router-view class="view"></router-view>',
         hideDisqus = true;
 
+//- block head
+    //- p &nbsp;
+    title!= 'Резюме &bullet; Кушніра В&apos;ячеслава &bullet; Web Craftsman &bullet; Slaawwa'
 
 block nav
     #bs-example-navbar-collapse-1.collapse.navbar-collapse(
@@ -20,9 +23,12 @@ block nav
                     {path: '/portfolio', name: 'Портфоліо'},
                 ];
             each i in menu
-                - ;
                 li(:class="{active: '"+i.path+"' === $route.fullPath}")
                     router-link(to=i.path) #{i.name}
+
+        //- .navbar-right
+            .navbar-header
+                a.navbar-brand(href="#") Brand
 
         ul.nav.navbar-nav.navbar-right
             -
@@ -31,8 +37,8 @@ block nav
                     {link: 'https://stackoverflow.com/users/2661164/slaawwa', name: 'StackOverflow'},
                     {link: 'https://codepen.io/slaawwa/', name: 'CodePen'},
                 ];
+            //- li
             each i in menu
-                - ;
                 li(:class="{active: '"+i.path+"' === $route.fullPath}")
                     a(href=i.link, target="_blank") #{i.name}
                     //- router-link(to=i.path) #{i.name}
@@ -56,11 +62,104 @@ block nav
                     ];
                 ul#menuRightDD.dropdown-menu
                     each i in menu
-                        - ;
                         li 
                             a(href=i.link, target=i.target || "_blank") #{i.name}
                 //- li.divider(role='separator')
 
+block append footerRightPart
+    ul.nav.navbar-nav.navbar-right.dropup(
+            @mouseover="menuLangRightOpen = true",
+            @mouseleave="menuLangRightOpen = false"
+        )
+        li.dropdown(
+                :class="{open: menuLangRightOpen}"
+            )
+            a.dropdown-toggle(onclick='return false', href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+                span.langFlags(:data-lang="lang")
+            - 
+                lang = [
+                    {name: 'ua', title: {en: 'UKR', ua: 'УКР'}},
+                    {name: 'en', title: {en: 'ENG', ua: 'АНГ'}},
+                ];
+            ul#menuLangRightDD.dropdown-menu
+                each i in lang
+                    li 
+                        a.btn.btn-link.btn-block.langFlagsB(
+                                :href="'/lang/"+i.name+"'"
+                                data-title=i.name,
+                                @click.prevent="lang = '"+i.name+"'",
+                                v-show="'"+i.name+"' !== lang",
+                                :class="{active: '"+i.name+"' === lang}"
+                                :data-lang="'"+i.name+"'"
+                            )
+//- block footer
+    | [123]
+    include ../../partials/appFooter
+//- block content
+    #app1
+        //- hr
+        //- a(href='#/') App
+        //- | 
+        //- a(href='#/home') Home
+        //- | 
+        //- a(href='#/resume') Resume
+        //- | 
+        //- a(href='#/portfolio') Portfolio
+        //- | 
+        //- a(href='#/users') Users
+        //- | 
+        //- a(href='#/user/5') User #5
+        //- hr
+        //- router-link(to='/') Resume
+        //- |  | 
+        //- router-link(to='/resume') Resume
+        //- |  | 
+        //- router-link(to='/portfolio') Portfolio
+        //- |  | 
+        //- router-link(to='/user/10') User #10
+        //- hr
+        router-view.view
 
 block styles
+    style.
+        #menuLangRightDD {
+            min-width: 40px;
+        }
+        #menuLangRightDD .langFlagsB:before, .langFlags {
+            width: 16px;
+            height: 11px;
+            background-position-x: center;
+            background-image: url(/img/flags.jpg);
+            background-repeat: no-repeat;
+            display: inline-block;
+            content: '';
+        }
+        #menuLangRightDD a.langFlagsB {
+            padding: 5px 0;
+        }
+        .langFlagsB[data-lang="en"]:before, .langFlags[data-lang="en"] {
+            background-position-y: -11px;
+        }
+    //- style.
+        #menuRightDD {
+            min-width: 125px;
+        }
+        #menuRightDD:before, #menuRightDD:after {
+            content: '';
+            display: block;
+            position: absolute;
+            margin-left: -40px;
+        }
+        #menuRightDD:before {
+            height: calc(100% + 40px);
+            width: 40px;
+            margin-top: -10px;
+        }
+        #menuRightDD:after {
+            width: calc(100% + 40px);
+            height: 40px;
+        }
+
+//- block _endBody
 block _end
+    //- script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js')
